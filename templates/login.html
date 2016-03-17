@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6 lt8"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="no-js ie7 lt8"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="no-js ie8 lt8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> 
+<html lang="en" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="UTF-8" />
+        <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">  -->
+        <title>Login and Registration</title>
+        <link rel="shortcut icon" href="../favicon.ico"> 
+        <link rel="stylesheet" type="text/css" href="/static/css/demo.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/style2.css" />
+		<link rel="stylesheet" type="text/css" href="/static/css/animate-custom.css" />
+<script src="/static/js/jquery-2.1.1.min.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <div class="container">
+          
+            <header>
+                <h1></h1>
+				<nav class="codrops-demos">
+					
+				</nav>
+            </header>
+            <section>				
+                <div id="container_demo" >
+                  
+                    <a class="hiddenanchor" id="toregister"></a>
+                    <a class="hiddenanchor" id="tologin"></a>
+                    <div id="wrapper">
+                        <div id="login" class="animate form">
+                            <form  autocomplete="on"> 
+                                <h1>Log in</h1> 
+                                <p> 
+                                    <label for="username" class="uname" data-icon="u" > Your email</label>
+                                    <input id="username" name="username" required="required" type="text" placeholder="mymail@mail.com"/>
+                                </p>
+                                <p> 
+                                    <label for="password" class="youpasswd" data-icon="p"> Your password </label>
+                                    <input id="password" name="password" required="required" type="password" placeholder="eg. X8df!90EO" /> 
+                                </p>
+                               <div style="margin-left:24%;">
+    <p id="pmsg"><strong id="msg"></strong></p></div>
+                                <p class="login button"> 
+                                    <input type="button" value="Login" id="loginBtn"  /> 
+								</p>
+
+                                <p class="change_link">
+									Not a member yet ?
+									<a href="#toregister" class="to_register">Join us</a>
+								</p>
+                            </form>
+                        </div>
+
+                        <div id="register" class="animate form">
+                            <form autocomplete="on"> 
+                                <h1> Sign up </h1> 
+
+                                <p>
+                                    <label for="usernamesignup" class="uname" data-icon="u">Your username</label>
+                                    <input id="usernamesignup" name="usernamesignup" required="required" type="text" placeholder="mysuperusername690" />
+                                </p>
+                                <p> 
+                                    <label for="emailsignup" class="youmail" data-icon="e" > Your email</label>
+                                    <input id="emailsignup" name="emailsignup" required="required" type="email" placeholder="mysupermail@mail.com"/> 
+                                </p>
+                                <p> 
+                                    <label for="passwordsignup" class="youpasswd" data-icon="p">Your password </label>
+                                    <input id="passwordsignup" name="passwordsignup" required="required" type="password" placeholder="eg. X8df!90EO"/>
+                                </p>
+                                <p> 
+                                    <label for="passwordsignup_confirm" class="youpasswd" data-icon="p">Please confirm your password </label>
+                                    <input id="passwordsignup_confirm" name="passwordsignup_confirm" required="required" type="password" placeholder="eg. X8df!90EO"/>
+                                </p>
+                                <div style="margin-left:24%;">
+    <p id="spmsg"><strong id="smsg"></strong></p></div>
+                                <p class="signin button"> 
+									<input type="button" value="Sign up" id="signupBtn"/>
+								</p>
+                                <p class="change_link">  
+									Already a member ?
+									<a href="#tologin" class="to_register"> Go and log in </a>
+								</p>
+                            </form>
+                        </div>
+						
+                    </div>
+                </div>  
+            </section>
+        </div>
+    </body>
+
+
+<script>
+   $(function() {
+
+ $.ajaxSetup({
+            headers: { "X-CSRFToken": getCookie("csrftoken") }
+           });
+    function getCookie(c_name)
+       {
+           if (document.cookie.length > 0)
+           {
+               c_start = document.cookie.indexOf(c_name + "=");
+               if (c_start != -1)
+               {
+                   c_start = c_start + c_name.length + 1;
+                   c_end = document.cookie.indexOf(";", c_start);
+                   if (c_end == -1) c_end = document.cookie.length;
+                   return unescape(document.cookie.substring(c_start,c_end));
+               }
+           }
+           return "";
+       }
+   });
+
+$('#loginBtn').on('click', function(){
+    var data = {
+        'email' : $("#username").val(),
+        'password' : $("#password").val(),
+    }
+
+    console.log(data)
+    $.ajax({
+        'url':'/home/logintkn/',
+        'method':'post',
+        'data':data,
+        'success': function(response){
+{#            console.log("su"+JSON.stringify(response))#}
+{#            alert("su"+JSON.stringify(response))#}
+            $("#pmsg").css("color","green");
+            $("#msg").text(response.success_message);
+             window.location="/home/"
+        },
+        'error':function(re){
+{#            alert("er"+JSON.stringify(re))#}
+{#            alert("error: "+re.responseJSON.error_message)#}
+            $("#pmsg").css("color","red");
+            $("#msg").text("Error Logging in. Please try later");
+        }
+    })
+
+});
+
+
+$('#signupBtn').on('click', function(){
+    var data = {    'user_name' : $("#usernamesignup").val(),
+        'password': $("#passwordsignup").val(),
+        'email':$("#emailsignup").val(),
+        'confirm_password':$("#passwordsignup_confirm").val(),
+    }
+
+    console.log(data)
+    $.ajax({
+        'url':'/home/signup/',
+        'method':'post',
+        'data':data,
+        'success': function(response){
+{#            console.log("su"+response)#}
+           // alert("su"+response)
+            $("#spmsg").css("color","green");
+            $("#smsg").text(response.success_message);
+        },
+        'error':function(re){
+{#            alert("er"+JSON.stringify(re))#}
+{#            console.log("Error creating Account Try Again.")#}
+            $("#spmsg").css("color","red");
+            $("#smsg").text("Error creating Account Try Again.");
+        }
+    })
+
+});
+</script>
+</html>
