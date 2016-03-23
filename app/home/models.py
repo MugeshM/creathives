@@ -103,13 +103,14 @@ class User(AbstractBaseUser):
 
 
 class projects(models.Model):
-    project_title=models.CharField(max_length=100)
-    project_desc=models.CharField(max_length=350)
+    project_title=models.CharField(max_length=100,default="Project Title")
+    project_desc=models.CharField(max_length=350,default="Project Description")
     # user_email = models.ForeignKey(User,on_delete=models.CASCADE)
     user_id=models.ForeignKey(User,on_delete=models.CASCADE)
-    posted_date = models.DateTimeField('date posted')
-    thumbnail_url = models.CharField(max_length=200)
+    posted_date = models.DateTimeField('date posted',default=timezone.now)
+    thumbnail_url = models.CharField(max_length=200,default=None)
     project_url = models.CharField(max_length=200,default=None)
+    project_type=models.CharField(max_length=100,default=None)
     def __str__(self):
         return self.project_title
 

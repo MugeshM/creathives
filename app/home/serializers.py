@@ -47,7 +47,7 @@ class LoginSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = projects
-        fields = ('project_title','project_desc','user_id','posted_date','thumbnail_url','project_url')
+        fields = ('project_title','project_desc','user_id','project_type','project_url','thumbnail_url')
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:

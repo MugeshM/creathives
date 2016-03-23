@@ -20,3 +20,14 @@ def get_json_web_token(user):
             datetime.utcnow().utctimetuple()
         )
     return jwt_encode_handler(payload)
+
+def get_token(user):
+    jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+    payload={
+        "name":"mugesh",
+    }
+    if api_settings.JWT_ALLOW_REFRESH:
+        payload['orig_iat'] = timegm(
+            datetime.utcnow().utctimetuple()
+        )
+    return jwt_encode_handler(payload)

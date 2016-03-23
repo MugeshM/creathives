@@ -209,7 +209,6 @@
     </div>
   </section>
 
-
   <!-- Main Content -->
   <section id ="main_Content" class="margin-0">
     <div class="container">
@@ -220,51 +219,34 @@
         <!-- view profile -->
         <div class="leftPanel">
           <div class="lp_title">
-           <span class="projcount"> {{ projects.count }} Projects</span>
+           <span class="projcount"> 5 Projects</span>
             <!-- Portfolio Edit -->
             <button class="btn btn-black hide" id="cancel">CANCEL X</button>
             <button class="btn btn-black " id="add">ADD <img src="/static/images/Edit/plus.png" alt="+"></button>
           </div>
           <hr class="ul-border">
-            <div class="left-panel-scroll">
-             <ul>
-             <li class="active hide" id="newprojimg" data-project-id="0">
-                <a>
-                  <img src="/static/images/Edit/titleImage.png" alt="Lorem ipsum">
-                  <span class="newprojtitle"></span>
-                  <div class="overLay"></div>
-                  <!-- Portfolio Edit -->
-                  <img src="/static/images/Edit/empty-trash.png" class="emptyTrash" alt="delete">
-                  <img src="/static/images/Edit/trash.png" class="deleteTrash" alt="delete">
-                  </a>
-                 <div class="deletePrompt" style="display:none;">
-                  <h4>Are you sure?</h4>
-                  <a class="deletecancel">Cancel</a>
-                  <a class="yesdelete">Yes, Delete</a>
-                </div>
-              </li>
- {% for item in projects %}
+          <div class="left-panel-scroll">
+            <ul>
 
-              <li class="active" data-project-id="{{ item.id }}">
-                <a >
-                  <img src="{{ item.thumbnail_url }}" alt="Lorem ipsum">
-                  <span>{{ item.project_title }}</span>
+              <li class="active">
+                <a href="">
+                  <img src="/static/images/latest/lp2.png" alt="Lorem ipsum">
+                  <span>ITC Packaging</span>
                   <div class="overLay"></div>
                   <!-- Portfolio Edit -->
                   <img src="/static/images/Edit/empty-trash.png" class="emptyTrash" alt="delete">
                   <img src="/static/images/Edit/trash.png" class="deleteTrash" alt="delete">
                 </a>
                 <!-- Delete Prompt -->
-                <div class="deletePrompt" style="display:none;">
+                <div class="deletePrompt">
                   <h4>Are you sure?</h4>
-                 <a class="deletecancel">Cancel</a>
-                  <a class="yesdelete">Yes, Delete</a>
+                  <a href="">Cancel</a>
+                  <a href="">Yes, Delete</a>
                 </div>
               </li>
-
-{% endfor %}
- </ul>
+            </ul>
           </div>
+
           <hr class="ul-border">
         </div>
       </div>
@@ -307,8 +289,8 @@
 
             </li>
           </ul>
-          <div id="rightView_content" class="hide" >
-            <div class="pH_row hide">
+          <div id="rightView_content">
+            <div class="pH_row">
               <div class="titleSection">
                 <span class="p_mt">ITC Packaging</span>
                 <span class="p_st">Project Type</span>
@@ -319,15 +301,12 @@
             </div>
 
             <!-- Portfolio Edit -->
-            <div class="pH_row-edit" data-project-id="0" >
+            <div class="pH_row-edit ">
               <div class="media">
                 <div class="media-left">
-                <form id="pt">
-                  <label for="thumbimg">
-                    <img class="media-object" for="thumbimg" src="/static/images/Edit/titleImage.png" alt="Upload Image">
-                    <input type="file" name="file" id="thumbimg" style="display:none">
-                  </label>
-                </form>
+                  <a href="#">
+                    <img class="media-object" src="/static/images/Edit/titleImage.png" alt="Upload Image">
+                  </a>
                 </div>
                 <div class="media-body">
                   <h4 class="media-heading edit-projTitle" contentEditable="true">
@@ -374,7 +353,7 @@
                     <form class="form-inline">
                       <div class="form-group">
                         <label for="mediaURL">ADD URL</label>
-                        <input type="text" class="form-control" id="mediaURL" value="http://">
+                        <input type="text" class="form-control" id="mediaURL" placeholder="http://">
                       </div>
                     </form>
                   </div>
@@ -409,7 +388,7 @@
         </div>
 
         <!-- Portfolio Edit -->
-        <div class="countDisplay hide">
+        <div class="countDisplay ">
           <span>3</span> images and <span>5</span> videos selected
           <button class="btn btn-black">DELETE</button>
         </div>
@@ -638,43 +617,7 @@
     </div>
   </section>
 <script>
-   // $('.deletePrompt').addClass("hide");
-
-    $(".deleteTrash").on("click",function(e){
-        e.preventDefault();
-        $(this).parent().next().show();
-    });
-   $(".deletecancel").on("click",function(e){
-       e.preventDefault();
-    $(this).parent().hide();
-    //alert($(this).parent().prop("class"));
-});
-    $(".yesdelete").on("click",function(e){
-       e.preventDefault();
-        //console.log($(this));
-       var pid=$(this).parents("li").data("project-id");
-
-       var data = {    'proj_id':pid,
-               'user_id':{{request.user.id}},
-                 }
-
-    console.log(data)
-    $.ajax({
-        'url':'/home/deleteproject/',
-        'method':'post',
-        'data':data,
-        'success': function(response){
-           // alert("df");
-           $(".left-panel-scroll ul").find("[data-project-id="+pid+"]").remove();
-        },
-        'error':function(re){
-
-        }
-    })
-
-
-
-});
+    $('.deletePrompt').hide();
 $(".articles").on("click",function(){
 	$(".all").removeClass("active");
 	$(".videos").removeClass("active");
@@ -725,55 +668,8 @@ $("li").hover(function(){
     $(this).css("cursor", "hand");
     }, function(){
 });
-
-    // resize
-	function modalHeight() {
-		videoHeight = $(window).height();
-		$('.video-modal').css('height', videoHeight - 50);
-	};
-	modalHeight();
-
-	$(window).resize(function() {
-		modalHeight();
-	});
-
-
-	if ($(window).width() >= 768) {
-        function setHeight() {
-            windowHeight = $(window).height();
-            $('#main_Content').css('min-height', windowHeight);
-            $('.right_viewArea').css('min-height', windowHeight + 20);
-            $('.leftPanel').css('min-height', windowHeight);
-            $('.left-panel-scroll').css('height', windowHeight - 200);
-        };
-        setHeight();
-
-        $(window).resize(function () {
-            setHeight();
-        });
-        function sticky_relocate() {
-			var window_top = $(window).scrollTop();
-			var div_top = $('#sticky-anchor').offset().top;
-			var targetOffset = $("#anchor-point").offset().top;
-
-			if (window_top > div_top) {
-				//$('.leftPanel').addClass('stick');
-				$('.hd').removeClass('hide');
-				$('.nav-categories').addClass('hide');
-			} else {
-				//$('.leftPanel').removeClass('stick');
-				$('.hd').addClass('hide');
-				$('.nav-categories').removeClass('hide');
-			}
-		}
-
-		$(function () {
-			$(window).scroll(sticky_relocate);
-			sticky_relocate();
-		});
-    }
 </script>
-{#  <script src="/static/js/script.js"></script>#}
+  <script src="/static/js/script.js"></script>
   <script>
   var myVideo=document.getElementById("videoPP"); 
   $('.play-icon, .max-icon, .prev-video, .next-video').click(function(){
@@ -794,10 +690,7 @@ $("li").hover(function(){
 $('[data-toggle="popover"]').popover();
   </script>
 
-
   <script>
-      var thumbnailset=0;
-      var newprojflag="F";
 var contents = $('.media-heading').html();
 $('.media-heading').blur(function() {
     if (contents!=$(this).html()){
@@ -832,7 +725,6 @@ $('#mediaURL').change(function() {
 });
 
 function update(){
-    //alert($("#pt").find("img").attr("src"));
     var headingcontent=$('.media-heading').html();
     var projtype=$('.edit-projType').html();
     var projdesc=$('.edit-projDesc').html();
@@ -843,8 +735,6 @@ function update(){
         'project_desc' : projdesc.trim(),
         'user_id' :{{   request.user.id }},
         'project_url' : projurl.trim(),
-        'thumbnail_url' : $("#pt").find("img").attr("src"),
-        'flag':newprojflag,
     }
     console.log(data)
     $.ajax({
@@ -852,10 +742,17 @@ function update(){
         'method':'post',
         'data':data,
         'success': function(response){
-
+{#            console.log("su"+JSON.stringify(response))#}
+{#            alert("su"+JSON.stringify(response))#}
+            $("#pmsg").css("color","green");
+            $("#msg").text(response.success_message);
+             window.location="/home/"
         },
         'error':function(re){
-
+{#            alert("er"+JSON.stringify(re))#}
+{#            alert("error: "+re.responseJSON.error_message)#}
+            $("#pmsg").css("color","red");
+            $("#msg").text("Error Logging in. Please try later");
         }
     })
 
@@ -884,53 +781,14 @@ function update(){
 
   $("#add").click(function(){
      $(".projcount").addClass("hide");
-     $(".projcount").addClass("hide");
      $("#add").addClass("hide");
      $("#cancel").removeClass("hide");
-     $("#rightView_content").removeClass("hide");
-       newprojflag="T";
-     $("#newprojimg").removeClass("hide");
-      //alert( newprojflag);
   });
   $("#cancel").click(function(){
      $(".projcount").removeClass("hide");
      $("#add").removeClass("hide");
      $("#cancel").addClass("hide");
-     $("#rightView_content").addClass("hide");
-       newprojflag="F";
-     $("#newprojimg").addClass("hide");
-     // alert( newprojflag);
   });
-$("#pt").change(function (e){
-    var $img= e.target.files[0];
-    var projid=$("#pt").parents(".pH_row-edit").data("project-id");
-    if(projid==0)
-    {
-    var data=new FormData();
-    data.append("image",$img);
-console.log(data)
-$.ajax({
-  url: "uploadprojthumb/",
-  type: "POST",
-  data: data,
-  dataType: 'json',
-  processData: false,  // tell jQuery not to process the data
-  contentType: false,   // tell jQuery not to set contentType
-  'success': function(response){
-       $("#newprojimg").find("img:eq(0)").attr("src",response.proj_url);
-       $("#pt").find("img").attr("src",response.proj_url);
-       update();
-      //alert(response.proj_url);
-        },
-        'error':function(re){
-            alert("error in creating project");
-        }
-});
-    }
-    });
-
-
-
   </script>
 
 </body>

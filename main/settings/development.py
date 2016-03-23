@@ -149,3 +149,6 @@ REST_FRAMEWORK = {
 TEMPLATE_DIRS=(
     os.path.join(PROJECT_ROOT,"Creathives/templates"),
 )
+
+FILE_UPLOAD_HANDLERS =["django.core.files.uploadhandler.MemoryFileUploadHandler",
+ "django.core.files.uploadhandler.TemporaryFileUploadHandler"]

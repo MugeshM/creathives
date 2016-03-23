@@ -12,4 +12,8 @@ urlpatterns = [
     url(r'^updateprofile/',views.updateprofile,name="updateprofile"),
     url(r'^updatecover/',views.updatecover,name="updatecover"),
     url(r'^updateimg/',views.updateimg,name="updateimg"),
+    url(r'^token/', views.token, name='token'),
+    url(r'^projupdate/', views.projectdetailupdate, name='projupdate'),
+    url(r'^uploadprojthumb/', views.uploadprojthumb, name='uploadprojthumb'),
+    url(r'^deleteproject/', views.deleteproject, name='deleteproject'),
 ]

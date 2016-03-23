@@ -6,18 +6,31 @@ from calendar import timegm
 from rest_framework import status
 from models import User,projects
 from django.contrib.auth import authenticate, login as auth_login
-from .serializers import LoginSerializer,SignupSerializer,ProfileSerializer
+from .serializers import LoginSerializer,SignupSerializer,ProfileSerializer,ProjectSerializer
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from rest_framework.permissions import AllowAny
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
+
+from .forms import UploadFileForm
+from .helper import handle_uploaded_file
+from .jwt_helper import get_token
+from django.template import Context
 
 @login_required
 def home(request):
-     return render(request,"index.html")
+     project = projects.objects.filter(user_id=request.user.id)
+     context = {'projects': project}
+     return render(request,"index.html",context)
 
 def getjwt(request):
+    return render(request,"jwttest.html")
+
+@api_view(['POST'])
+@permission_classes((AllowAny,))
+def token(request):
+    print get_token(request.data.get("email"))
     return render(request,"jwttest.html")
 
 @api_view(['POST'])
@@ -91,19 +104,32 @@ def updateprofile(request):
 @permission_classes((AllowAny,))
 def updatecover(request):
     if request.method == 'POST':
-        print request.data
-        try:
-            wallimgurl= request.POST.get("coverimgurl")
-        except User.DoesNotExist:
-            return HttpResponse(status=status.HTTP_404_NOT_FOUND)
-        con =  User.objects.filter(id=request.user.id).update(wallimg_url=wallimgurl)
-        return render(request,"index.html")
+         if request.data.get("coverimgurl")!=None:
+            print "Uploading only URL"
+            try:
+                wallimgurl= request.POST.get("coverimgurl")
+            except User.DoesNotExist:
+                return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+            con =  User.objects.filter(id=request.user.id).update(wallimg_url=wallimgurl)
+            return render(request,"index.html")
+         elif request.data.get("file")!=None:
+              print "Uploading File"
+              if request.method == 'POST':
+                    form = UploadFileForm(request.POST, request.FILES)
+                    handle_uploaded_file(request.FILES['file'],request.FILES['file'].name,request.user)
+                    wallimgurl="/static/media/"+str(request.user)+"/"+str(request.FILES['file'].name)
+                    con =  User.objects.filter(id=request.user.id).update(wallimg_url=wallimgurl)
+                    return render(request,"index.html")
+              else:
+                    return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
 
 @api_view(['POST'])
 @login_required()
 @permission_classes((AllowAny,))
 def updateimg(request):
     if request.method == 'POST':
+      if request.POST.get("profileimgurl")!=None:
         print request.data
         try:
             profimgurl= request.POST.get("profileimgurl")
@@ -111,3 +137,65 @@ def updateimg(request):
             return HttpResponse(status=status.HTTP_404_NOT_FOUND)
         con =  User.objects.filter(id=request.user.id).update(profile_url=profimgurl)
         return render(request,"index.html")
+      elif request.data.get("file")!=None:
+              print "Uploading File"
+              if request.method == 'POST':
+                    form = UploadFileForm(request.POST, request.FILES)
+                    handle_uploaded_file(request.FILES['file'],request.FILES['file'].name,request.user)
+                    profimgurl="/static/media/"+str(request.user)+"/"+str(request.FILES['file'].name)
+                    con =  User.objects.filter(id=request.user.id).update(profile_url=profimgurl)
+                    return render(request,"index.html")
+              else:
+                    return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+#
+# @api_view(['POST'])
+# @login_required()
+# @permission_classes((AllowAny,))
+# def updatecover(request):
+#     print request.FILES['file'].name
+#     if request.method == 'POST':
+#         form = UploadFileForm(request.POST, request.FILES)
+#         handle_uploaded_file(request.FILES['file'],request.FILES['file'].name,request.user)
+#         return HttpResponse('success')
+#     else:
+#         return HttpResponse('failure')
+
+@api_view(['POST'])
+@login_required()
+@permission_classes((AllowAny,))
+def projectdetailupdate(request):
+     if request.method == 'POST':
+        print request.data
+        if request.data.get("flag")=="T":
+          project_serializer = ProjectSerializer(data=request.data)
+
+          if project_serializer.is_valid():
+            project_serializer.save()
+            print project_serializer.data
+            return Response(project_serializer.data)
+          return Response(project_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+@login_required()
+@permission_classes((AllowAny,))
+def uploadprojthumb(request):
+    if request.method == 'POST':
+                    print request.FILES.get("image")
+                    # form = UploadFileForm(request.POST, request.FILES)
+                    handle_uploaded_file(request.FILES.get("image"),request.FILES.get("image").name,request.user)
+                    profimgurl="/static/media/"+str(request.user)+"/"+str(request.FILES.get("image").name)
+                    # con =  User.objects.filter(id=request.user.id).update(profile_url=profimgurl)
+                    print profimgurl
+                    return Response({'proj_url':profimgurl},status=status.HTTP_200_OK)
+    else:
+                    return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['POST'])
+@login_required()
+@permission_classes((AllowAny,))
+def deleteproject(request):
+    if request.method == 'POST':
+        print request.data
+        projects.objects.get(id=request.data.get("proj_id"),user_id=request.data.get("user_id")).delete()
+        return Response(status=status.HTTP_200_OK)
