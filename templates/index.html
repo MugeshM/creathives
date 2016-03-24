@@ -941,9 +941,10 @@ $("#mediaURL").val("http://");
 $("#pt").change(function (e){
     alert("click");
     var $img= e.target.files[0];
-    var projid=$("#pt").parents(".pH_row-edit").data("project-id");
-    if(projid==0)
-    {
+   var projid=$("#pt").parents(".pH_row-edit").data("project-id");
+   // alert(projid);
+   // if(projid==0)
+  //  {
     var data=new FormData();
     data.append("image",$img);
 console.log(data)
@@ -957,6 +958,7 @@ $.ajax({
   'success': function(response){
        $("#newprojimg").find("img:eq(0)").attr("src",response.proj_url);
        $("#pt").find("img").attr("src",response.proj_url);
+
        update();
 
       //alert(response.proj_url);
@@ -965,7 +967,7 @@ $.ajax({
             alert("error in creating project");
         }
 });
-    }
+   // }
     });
 
 //$("#rightviewul li").click(function(e){
