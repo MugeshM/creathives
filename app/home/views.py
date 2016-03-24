@@ -166,15 +166,38 @@ def updateimg(request):
 @permission_classes((AllowAny,))
 def projectdetailupdate(request):
      if request.method == 'POST':
-        print request.data
+        # print request.data
         if request.data.get("flag")=="T":
+          print "create"
           project_serializer = ProjectSerializer(data=request.data)
 
           if project_serializer.is_valid():
             project_serializer.save()
-            print project_serializer.data
-            return Response(project_serializer.data)
+            data=project_serializer.data
+            count= projects.objects.filter(user_id=request.data.get("user_id")).count()
+            return Response({"data":data,"projcount":count})
           return Response(project_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        elif request.data.get("flag")=="detail":
+            print "detail"
+            print request.data
+            # res=projects.objects.get(id=request.data.get("project_id"))
+            # print res.project_desc
+            serializer=ProjectSerializer(projects.objects.get(id=request.data.get("project_id")))
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        elif request.data.get("flag")=="update":
+            print "update"
+            print request.data.get("projid")
+            try:
+             con=projects.objects.get(id=request.data.get("projid"),user_id=request.data.get("user_id"));
+            except User.DoesNotExist:
+             return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+            count= projects.objects.filter(user_id=request.data.get("user_id")).count()
+            serializer = ProjectSerializer(con, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({"data":serializer.data,"projcount":count})
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['POST'])
 @login_required()
@@ -198,4 +221,6 @@ def deleteproject(request):
     if request.method == 'POST':
         print request.data
         projects.objects.get(id=request.data.get("proj_id"),user_id=request.data.get("user_id")).delete()
-        return Response(status=status.HTTP_200_OK)
+        count= projects.objects.filter(user_id=request.data.get("user_id")).count()
+        print count
+        return Response({"projcount":count},status=status.HTTP_200_OK)

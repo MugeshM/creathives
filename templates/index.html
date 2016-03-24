@@ -227,25 +227,11 @@
           </div>
           <hr class="ul-border">
             <div class="left-panel-scroll">
-             <ul>
-             <li class="active hide" id="newprojimg" data-project-id="0">
-                <a>
-                  <img src="/static/images/Edit/titleImage.png" alt="Lorem ipsum">
-                  <span class="newprojtitle"></span>
-                  <div class="overLay"></div>
-                  <!-- Portfolio Edit -->
-                  <img src="/static/images/Edit/empty-trash.png" class="emptyTrash" alt="delete">
-                  <img src="/static/images/Edit/trash.png" class="deleteTrash" alt="delete">
-                  </a>
-                 <div class="deletePrompt" style="display:none;">
-                  <h4>Are you sure?</h4>
-                  <a class="deletecancel">Cancel</a>
-                  <a class="yesdelete">Yes, Delete</a>
-                </div>
-              </li>
+             <ul id="rightviewul">
+
  {% for item in projects %}
 
-              <li class="active" data-project-id="{{ item.id }}">
+              <li class="" data-project-id="{{ item.id }}">
                 <a >
                   <img src="{{ item.thumbnail_url }}" alt="Lorem ipsum">
                   <span>{{ item.project_title }}</span>
@@ -307,7 +293,7 @@
 
             </li>
           </ul>
-          <div id="rightView_content" class="hide" >
+          <div id="rightView_content" class="hide">
             <div class="pH_row hide">
               <div class="titleSection">
                 <span class="p_mt">ITC Packaging</span>
@@ -319,7 +305,7 @@
             </div>
 
             <!-- Portfolio Edit -->
-            <div class="pH_row-edit" data-project-id="0" >
+            <div class="pH_row-edit">
               <div class="media">
                 <div class="media-left">
                 <form id="pt">
@@ -639,14 +625,16 @@
   </section>
 <script>
    // $('.deletePrompt').addClass("hide");
-
+var curprojid=0;
     $(".deleteTrash").on("click",function(e){
         e.preventDefault();
         $(this).parent().next().show();
+        e.stopPropagation();
     });
    $(".deletecancel").on("click",function(e){
        e.preventDefault();
     $(this).parent().hide();
+       e.stopPropagation();
     //alert($(this).parent().prop("class"));
 });
     $(".yesdelete").on("click",function(e){
@@ -666,6 +654,9 @@
         'success': function(response){
            // alert("df");
            $(".left-panel-scroll ul").find("[data-project-id="+pid+"]").remove();
+           // alert(response.projcount);
+            $(".projcount").html(response.projcount+" Projects");
+            $("#rightView_content").addClass("hide");
         },
         'error':function(re){
 
@@ -673,7 +664,7 @@
     })
 
 
-
+e.stopPropagation();
 });
 $(".articles").on("click",function(){
 	$(".all").removeClass("active");
@@ -832,17 +823,25 @@ $('#mediaURL').change(function() {
 });
 
 function update(){
+   // alert("sd");
     //alert($("#pt").find("img").attr("src"));
     var headingcontent=$('.media-heading').html();
     var projtype=$('.edit-projType').html();
     var projdesc=$('.edit-projDesc').html();
     var projurl=$('#mediaURL').val();
+    projid=0;
+    if(curprojid!=0){
+        console.log(curprojid)
+                projid=curprojid;
+                newprojflag="update";
+    }
      var data = {
-        'project_title' : headingcontent.trim(),
-        'project_type' : projtype.trim(),
-        'project_desc' : projdesc.trim(),
+        'projid':projid,
+        'project_title' : removebr(headingcontent.trim()),
+        'project_type' : removebr(projtype.trim()),
+        'project_desc' : removebr(projdesc.trim()),
         'user_id' :{{   request.user.id }},
-        'project_url' : projurl.trim(),
+        'project_url' : removebr(projurl.trim()),
         'thumbnail_url' : $("#pt").find("img").attr("src"),
         'flag':newprojflag,
     }
@@ -852,6 +851,22 @@ function update(){
         'method':'post',
         'data':data,
         'success': function(response){
+       // alert(response.data.id)
+        $("#newprojimg").attr("data-project-id",response.data.id);
+        $(".pH_row-edit").attr("data-project-id",response.data.id);
+        $(".projcount").html(response.projcount+" Projects");
+        //alert(response.projcount);
+        $("#rightView_content").removeClass("hide");
+        $("#rightView_content").find(".pH_row-edit").attr("data-project-id",response.data.id);
+        $("#rightView_content").find(".media-object").attr("src",response.data.thumbnail_url);
+        $("#rightView_content").find(".media-body h4").html(response.data.project_title);
+        $("#rightView_content").find(".media-body .edit-projType").html(response.data.project_type);
+        $("#rightView_content").find(".media-body .edit-projDesc").html(response.data.project_desc);
+        $("#mediaURL").val(response.data.project_url);
+      console.log(response.data.id);
+      curprojid=response.data.id;
+        $(".left-panel-scroll ul").find("[data-project-id="+response.data.id+"]").find("span").html(response.data.project_title);
+        $(".left-panel-scroll ul").find("[data-project-id="+response.data.id+"]").find("img:eq(0)").attr("src",response.data.thumbnail_url);
 
         },
         'error':function(re){
@@ -883,13 +898,33 @@ function update(){
    });
 
   $("#add").click(function(){
-     $(".projcount").addClass("hide");
+     curprojid=0;
      $(".projcount").addClass("hide");
      $("#add").addClass("hide");
      $("#cancel").removeClass("hide");
-     $("#rightView_content").removeClass("hide");
+     $("#rightView_content").removeClass('hide');
+$("#rightView_content").find(".pH_row-edit").attr("data-project-id","0");
+$("#rightView_content").find(".media-object").attr("src","/static/images/Edit/titleImage.png");
+$("#rightView_content").find(".media-body h4").html("Project Title");
+$("#rightView_content").find(".media-body .edit-projType").html("Project Type");
+$("#rightView_content").find(".media-body .edit-projDesc").html("Project Description");
+$("#mediaURL").val("http://");
+
+
        newprojflag="T";
-     $("#newprojimg").removeClass("hide");
+     $("#rightviewul").prepend(' <li id="newprojimg" data-project-id="0"><a>' +
+             '<img src="/static/images/Edit/titleImage.png" alt="Lorem ipsum">'+
+                 ' <span class="newprojtitle"></span>'+
+                  '<div class="overLay"></div>'+
+                  '<img src="/static/images/Edit/empty-trash.png" class="emptyTrash" alt="delete">'+
+                 ' <img src="/static/images/Edit/trash.png" class="deleteTrash" alt="delete">'+
+                  '</a>'+
+                ' <div class="deletePrompt" style="display:none;">'+
+                 ' <h4>Are you sure?</h4>'+
+                 ' <a class="deletecancel">Cancel</a>'+
+                 ' <a class="yesdelete">Yes, Delete</a>'+
+               ' </div>'+
+              '</li>');
       //alert( newprojflag);
   });
   $("#cancel").click(function(){
@@ -898,10 +933,13 @@ function update(){
      $("#cancel").addClass("hide");
      $("#rightView_content").addClass("hide");
        newprojflag="F";
-     $("#newprojimg").addClass("hide");
+     if($("#newprojimg").data("project-id")==0)
+     {$("#newprojimg").remove();}
+     //$("#newprojimg").addClass("hide");
      // alert( newprojflag);
   });
 $("#pt").change(function (e){
+    alert("click");
     var $img= e.target.files[0];
     var projid=$("#pt").parents(".pH_row-edit").data("project-id");
     if(projid==0)
@@ -920,6 +958,7 @@ $.ajax({
        $("#newprojimg").find("img:eq(0)").attr("src",response.proj_url);
        $("#pt").find("img").attr("src",response.proj_url);
        update();
+
       //alert(response.proj_url);
         },
         'error':function(re){
@@ -929,8 +968,47 @@ $.ajax({
     }
     });
 
+//$("#rightviewul li").click(function(e){
+$(document.body).on('click', "#rightviewul li" ,function(){
+//alert("click");
+    if($(this).data("project-id")!=0) {
+        $(this).addClass("active");
+        $(this).siblings().removeClass("active");
+    }
+    curprojid=$(this).data("project-id");
+    //alert($(this).data("project-id"));
+     var data = {
+        'project_id' : $(this).data("project-id"),
+         "flag":"detail",
+    }
+    console.log(data)
+    $.ajax({
+        'url':'/home/projupdate/',
+        'method':'post',
+        'data':data,
+        'success': function(response){
+        console.log(response);
 
+$("#rightView_content").removeClass("hide");
+$("#rightView_content").find(".pH_row-edit").attr("data-project-id",response.id);
+$("#rightView_content").find(".media-object").attr("src",response.thumbnail_url);
+$("#rightView_content").find(".media-body h4").html(response.project_title);
+$("#rightView_content").find(".media-body .edit-projType").html(response.project_type);
+$("#rightView_content").find(".media-body .edit-projDesc").html(response.project_desc);
+$("#mediaURL").val(response.project_url);
 
+        },
+        'error':function(re){
+
+        }
+    })
+
+});
+function removebr(str){
+    str=str.replace(/[&]nbsp[;]/gi," ");
+    str=str.replace(/[<]br[^>]*[>]/gi,"");
+    return str;
+}
   </script>
 
 </body>
