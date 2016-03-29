@@ -12,11 +12,14 @@ from django.contrib.auth.decorators import login_required
 from rest_framework.permissions import AllowAny
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
-
+from main.settings import development
+import os
 from .forms import UploadFileForm
-from .helper import handle_uploaded_file
+from .helper import handle_uploaded_file,create_projectfolder
 from .jwt_helper import get_token
 from django.template import Context
+from django.http import QueryDict
+
 
 @login_required
 def home(request):
@@ -116,10 +119,12 @@ def updatecover(request):
               print "Uploading File"
               if request.method == 'POST':
                     form = UploadFileForm(request.POST, request.FILES)
-                    handle_uploaded_file(request.FILES['file'],request.FILES['file'].name,request.user)
-                    wallimgurl="/static/media/"+str(request.user)+"/"+str(request.FILES['file'].name)
+                    handle_uploaded_file(request.FILES['file'],request.FILES['file'].name,request.user,"cover_img")
+                    dirpath=str(development.PROJECT_ROOT)+"/static/media/"+str(request.user)
+                    filename, file_extension = os.path.splitext(dirpath+"/"+request.FILES['file'].name)
+                    wallimgurl="/static/media/"+str(request.user)+"/"+str("cover_img"+file_extension)
                     con =  User.objects.filter(id=request.user.id).update(wallimg_url=wallimgurl)
-                    return render(request,"index.html")
+                    return Response({"msg":"updated successfully","coverimgurl":wallimgurl},status=status.HTTP_200_OK)
               else:
                     return HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
@@ -141,10 +146,12 @@ def updateimg(request):
               print "Uploading File"
               if request.method == 'POST':
                     form = UploadFileForm(request.POST, request.FILES)
-                    handle_uploaded_file(request.FILES['file'],request.FILES['file'].name,request.user)
-                    profimgurl="/static/media/"+str(request.user)+"/"+str(request.FILES['file'].name)
+                    handle_uploaded_file(request.FILES['file'],request.FILES['file'].name,request.user,"profile_img")
+                    dirpath=str(development.PROJECT_ROOT)+"/static/media/"+str(request.user)
+                    filename, file_extension = os.path.splitext(dirpath+"/"+request.FILES['file'].name)
+                    profimgurl="/static/media/"+str(request.user)+"/"+str("profile_img"+file_extension)
                     con =  User.objects.filter(id=request.user.id).update(profile_url=profimgurl)
-                    return render(request,"index.html")
+                    return Response({"msg":"updated successfully","profileimgurl":profimgurl},status=status.HTTP_200_OK)
               else:
                     return HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
@@ -169,12 +176,25 @@ def projectdetailupdate(request):
         # print request.data
         if request.data.get("flag")=="T":
           print "create"
-          project_serializer = ProjectSerializer(data=request.data)
+          data=request.data
+          # data.push({"user_id":request.user.id})
+          # data.user_id=request.user.id
+          dict={"user_id":str(request.user.id)}
+          # print "mmm"+str(data)
+          # data=QueryDict(request.data,mutable=True)
+          # print "mmm"+str(data)
+          dict.update(request.data.dict())
+          # print "mmm"+str(dict)
+          # request.GET["user_id"]=request.user.id
+          # print "sf"+str(data)
+          project_serializer = ProjectSerializer(data=dict)
 
           if project_serializer.is_valid():
             project_serializer.save()
             data=project_serializer.data
-            count= projects.objects.filter(user_id=request.data.get("user_id")).count()
+            print "proj id :"+str(data.get("id"))
+            create_projectfolder(request.user,"Project"+str(data.get("id")))
+            count= projects.objects.filter(user_id=request.user.id).count()
             return Response({"data":data,"projcount":count})
           return Response(project_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         elif request.data.get("flag")=="detail":
@@ -188,11 +208,13 @@ def projectdetailupdate(request):
             print "update"
             print request.data.get("projid")
             try:
-             con=projects.objects.get(id=request.data.get("projid"),user_id=request.data.get("user_id"));
+             con=projects.objects.get(id=request.data.get("projid"),user_id=request.user.id);
             except User.DoesNotExist:
              return HttpResponse(status=status.HTTP_404_NOT_FOUND)
-            count= projects.objects.filter(user_id=request.data.get("user_id")).count()
-            serializer = ProjectSerializer(con, data=request.data)
+            count= projects.objects.filter(user_id=request.user.id).count()
+            dict={"user_id":str(request.user.id)}
+            dict.update(request.data.dict())
+            serializer = ProjectSerializer(con, data=dict)
             if serializer.is_valid():
                 serializer.save()
                 return Response({"data":serializer.data,"projcount":count})
@@ -206,7 +228,7 @@ def uploadprojthumb(request):
     if request.method == 'POST':
                     print request.FILES.get("image")
                     # form = UploadFileForm(request.POST, request.FILES)
-                    handle_uploaded_file(request.FILES.get("image"),request.FILES.get("image").name,request.user)
+                    handle_uploaded_file(request.FILES.get("image"),request.FILES.get("image").name,request.user,"")
                     profimgurl="/static/media/"+str(request.user)+"/"+str(request.FILES.get("image").name)
                     # con =  User.objects.filter(id=request.user.id).update(profile_url=profimgurl)
                     print profimgurl
@@ -220,7 +242,7 @@ def uploadprojthumb(request):
 def deleteproject(request):
     if request.method == 'POST':
         print request.data
-        projects.objects.get(id=request.data.get("proj_id"),user_id=request.data.get("user_id")).delete()
-        count= projects.objects.filter(user_id=request.data.get("user_id")).count()
+        projects.objects.get(id=request.data.get("proj_id"),user_id=request.user.id).delete()
+        count= projects.objects.filter(user_id=request.user.id).count()
         print count
         return Response({"projcount":count},status=status.HTTP_200_OK)

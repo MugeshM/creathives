@@ -152,3 +152,4 @@ TEMPLATE_DIRS=(
 
 FILE_UPLOAD_HANDLERS =["django.core.files.uploadhandler.MemoryFileUploadHandler",
  "django.core.files.uploadhandler.TemporaryFileUploadHandler"]
+MAX_UPLOAD_SIZE = "224288000"
