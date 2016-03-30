@@ -4,9 +4,9 @@ from rest_framework_jwt.settings import api_settings
 from datetime import datetime
 from calendar import timegm
 from rest_framework import status
-from models import User,projects
+from models import User,projects, media
 from django.contrib.auth import authenticate, login as auth_login
-from .serializers import LoginSerializer,SignupSerializer,ProfileSerializer,ProjectSerializer
+from .serializers import LoginSerializer,SignupSerializer,ProfileSerializer,ProjectSerializer, MediaSerializer
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from rest_framework.permissions import AllowAny
@@ -15,11 +15,12 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanen
 from main.settings import development
 import os
 from .forms import UploadFileForm
-from .helper import handle_uploaded_file,create_projectfolder
+from .helper import handle_uploaded_file,create_projectfolder, delete_projectfolder, mediaupload
 from .jwt_helper import get_token
 from django.template import Context
 from django.http import QueryDict
-
+import json
+from django.core import serializers
 
 @login_required
 def home(request):
@@ -177,16 +178,8 @@ def projectdetailupdate(request):
         if request.data.get("flag")=="T":
           print "create"
           data=request.data
-          # data.push({"user_id":request.user.id})
-          # data.user_id=request.user.id
           dict={"user_id":str(request.user.id)}
-          # print "mmm"+str(data)
-          # data=QueryDict(request.data,mutable=True)
-          # print "mmm"+str(data)
           dict.update(request.data.dict())
-          # print "mmm"+str(dict)
-          # request.GET["user_id"]=request.user.id
-          # print "sf"+str(data)
           project_serializer = ProjectSerializer(data=dict)
 
           if project_serializer.is_valid():
@@ -203,7 +196,9 @@ def projectdetailupdate(request):
             # res=projects.objects.get(id=request.data.get("project_id"))
             # print res.project_desc
             serializer=ProjectSerializer(projects.objects.get(id=request.data.get("project_id")))
-            return Response(serializer.data,status=status.HTTP_200_OK)
+            mediadata=MediaSerializer(media.objects.filter(user_id=request.user.id,project_id=request.data.get("project_id")),many=True)
+            mediacount=media.objects.filter(user_id=request.user.id,project_id=request.data.get("project_id")).count()
+            return Response({"projdata":serializer.data,"mediacount":mediacount,'mediadata':mediadata.data},status=status.HTTP_200_OK)
         elif request.data.get("flag")=="update":
             print "update"
             print request.data.get("projid")
@@ -243,6 +238,23 @@ def deleteproject(request):
     if request.method == 'POST':
         print request.data
         projects.objects.get(id=request.data.get("proj_id"),user_id=request.user.id).delete()
+        delete_projectfolder(request.user,"Project"+str(request.data.get("proj_id")))
         count= projects.objects.filter(user_id=request.user.id).count()
         print count
         return Response({"projcount":count},status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+@login_required()
+@permission_classes((AllowAny,))
+def handlemediaupload(request):
+   print request.data
+   mediaupload(request.FILES.get("file"),request.data.get("mediatype"),request.FILES.get("file").name,request.user,"Project"+request.data.get('projid'))
+   'user_id','project_id','media_type','media_url','media_thumbnail_url','media_details','media_title'
+   media_url="/static/media/"+str(request.user)+"/"+"Project"+request.data.get('projid')+"/"+request.data.get("mediatype")+"/"+request.FILES.get("file").name
+   data={'user_id':request.user.id,'project_id':request.data.get('projid'),'media_url':media_url,'media_type':request.data.get("mediatype")}
+   print data
+   serializer=MediaSerializer(data=data)
+   if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_200_OK)
+   return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

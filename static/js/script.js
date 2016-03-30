@@ -46,7 +46,9 @@ $(".articles").on("click",function(){
 	$(".images").removeClass("active");
 	$(".articles").addClass("active");
 	$("#rightView_content").hide();
-	$(".project_lists").hide();
+	//$(".project_lists").hide();
+     $(".project_lists .pl_thumbHolder[data-media-type='article']").show();
+     $(".project_lists .pl_thumbHolder[data-media-type!='article']").hide();
 });
 $(".all").on("click",function(){
 	$(".all").addClass("active");
@@ -56,15 +58,19 @@ $(".all").on("click",function(){
 	$(".articles").removeClass("active");
 	$("#rightView_content").show();
 	$(".project_lists").show();
+    $(".project_lists .pl_thumbHolder").show();
 });
-$(".videos").on("click",function(){
+//$(".videos").on("click",function(){
+   $(document).on('click','.videos',function(){
 	$(".all").removeClass("active");
 	$(".videos").addClass("active");
 	$(".tracks").removeClass("active");
 	$(".images").removeClass("active");
 	$(".articles").removeClass("active");
 	$("#rightView_content").hide();
-	$(".project_lists").hide();
+	//$(".project_lists").hide();
+     $(".project_lists .pl_thumbHolder[data-media-type='video']").show();
+     $(".project_lists .pl_thumbHolder[data-media-type!='video']").hide();
 });
 $(".tracks").on("click",function(){
 	$(".all").removeClass("active");
@@ -73,7 +79,9 @@ $(".tracks").on("click",function(){
 	$(".images").removeClass("active");
 	$(".articles").removeClass("active");
 	$("#rightView_content").hide();
-	$(".project_lists").hide();
+	//$(".project_lists").hide();
+     $(".project_lists .pl_thumbHolder[data-media-type='track']").show();
+     $(".project_lists .pl_thumbHolder[data-media-type!='track']").hide();
 });
 $(".images").on("click",function(){
 	$(".all").removeClass("active");
@@ -82,7 +90,9 @@ $(".images").on("click",function(){
 	$(".images").addClass("active");
 	$(".articles").removeClass("active");
 	$("#rightView_content").hide();
-	$(".project_lists").hide();
+	//$(".project_lists").hide();
+     $(".project_lists .pl_thumbHolder[data-media-type='image']").show();
+     $(".project_lists .pl_thumbHolder[data-media-type!='image']").hide();
 });
 $("li").hover(function(){
     $(this).css("cursor", "pointer");
@@ -147,12 +157,20 @@ $("li").hover(function(){
 	$(window).resize(function() {
 		modalHeight();
 	});
-    $('.pl_thumbHolder .thumbnail').click(function(){
-		$('body').css('overflow', 'hidden');
+
+    //$('.pl_thumbHolder .thumbnail').click(function(){
+	//	$('body').css('overflow', 'hidden');
+	//	$('.video-modal').fadeIn();
+	//	$('.body-overlay').fadeIn();
+	//})
+
+    $( document ).on( 'click',".pl_thumbHolder .thumbnail", function() {
+        $('body').css('overflow', 'hidden');
 		$('.video-modal').fadeIn();
 		$('.body-overlay').fadeIn();
-	})
-	$('.btn-done').click(function(){
+    });
+
+    $('.btn-done').click(function(){
 		$('body').css('overflow', 'visible');
 		$('.video-modal').fadeOut();
 		$('.body-overlay').fadeOut();
@@ -382,13 +400,14 @@ $(document.body).on('click', "#rightviewul li" ,function(){
         console.log(response);
 
 $("#rightView_content").removeClass("hide");
-$("#rightView_content").find(".pH_row-edit").attr("data-project-id",response.id);
-$("#rightView_content").find(".media-object").attr("src",response.thumbnail_url);
-$("#rightView_content").find(".media-body h4").html(response.project_title);
-$("#rightView_content").find(".media-body .edit-projType").html(response.project_type);
-$("#rightView_content").find(".media-body .edit-projDesc").html(response.project_desc);
-$("#mediaURL").val(response.project_url);
+$("#rightView_content").find(".pH_row-edit").attr("data-project-id",response.projdata.id);
+$("#rightView_content").find(".media-object").attr("src",response.projdata.thumbnail_url);
+$("#rightView_content").find(".media-body h4").html(response.projdata.project_title);
+$("#rightView_content").find(".media-body .edit-projType").html(response.projdata.project_type);
+$("#rightView_content").find(".media-body .edit-projDesc").html(response.projdata.project_desc);
+$("#mediaURL").val(response.projdata.project_url);
 
+display_projectlist(response.mediadata,response.mediacount);
         },
         'error':function(re){
 
@@ -396,6 +415,42 @@ $("#mediaURL").val(response.project_url);
     })
 
 });
+
+function display_projectlist(medialist,mediacount)
+{
+var e='<div class="project_lists">';
+    for(i=0;i<mediacount;i++)
+    {
+      var mediaurl=getimgurl(medialist[i].media_type);
+      e+='<div class="pl_thumbHolder"  data-media-type="'+medialist[i].media_type+'">'+
+              '<div class="thumb-edit-overlay"></div>'+
+              '<div class="thumbnail">'+
+                '<img src="'+medialist[i].media_url+'" alt="demo1">'+
+                '<div class="caption">'+
+                  '<p>'+medialist[i].media_title+'</p>'+
+                 ' <a href=""><img src="'+mediaurl+'" alt="videos"></a>'+
+                '</div>'+
+
+                '<div class="thumb-edit-icons">'+
+                 ' <div class="squaredThree">'+
+                  '  <input type="checkbox" value="None" id="test_1" name="check" />'+
+                  '  <label for="test_1"></label>'+
+                 ' </div>'+
+                 //' <a href=""><img src="/static/images/Edit/img-pen.png" alt="Edit"></a>'+
+                '</div>'+
+             ' </div>'+
+            '</div>';
+    }
+    e+="</div>";
+     $(".project_lists").replaceWith(e);
+}
+function getimgurl(inp)
+{
+    if(inp=="image"){return "/static/images/header/images-black.png"}
+    else if(inp=="article"){return "/static/images/header/articles-black.png"}
+    else if(inp=="track"){return "/static/images/header/tracks-black.png"}
+    else if(inp=="video"){return "/static/images/header/videos-black.png"}
+}
 function removebr(str){
     str=str.replace(/[&]nbsp[;]/gi," ");
     str=str.replace(/[<]br[^>]*[>]/gi,"");
@@ -460,10 +515,70 @@ $.ajax({
 
 
 //upload media
+var mediatype="";
 $(".icn img").on("click",function(){
     var proj=$(this).parents(".pH_row-edit").attr("data-project-id");
-    if($(this).parents(".icn").data("media-type")=="image")
-    {
-       console.log("Image"+proj);
+    mediatype=$(this).parents(".icn").data("media-type");
+    //alert(mediatype);
+    if(mediatype=="image"){
+        $("#muploadform #media").attr("accept","image/*");
     }
+    else if(mediatype=="video"){
+        $("#muploadform #media").attr("accept","video/*");
+    }
+    else if(mediatype=="track"){
+        $("#muploadform #media").attr("accept","audio/*");
+    }
+    else if(mediatype=="article"){
+        $("#muploadform #media").attr("accept","");
+    }
+
       });
+
+
+$("#muploadform").change(function (e){
+    //alert("click");
+    var $file= e.target.files[0];
+    var proj=$(this).parents(".pH_row-edit").attr("data-project-id");
+    //var mediatype=$(".icn img").parents(".icn").data("media-type");
+    console.log(mediatype+" "+proj);
+    var data=new FormData();
+    data.append("file",$file);
+    data.append("projid",proj);
+    data.append("mediatype",mediatype);
+    console.log(data)
+$.ajax({
+  url: "handlemediaupload/",
+  type: "POST",
+  data: data,
+  dataType: 'json',
+  processData: false,  // tell jQuery not to process the data
+  contentType: false,   // tell jQuery not to set contentType
+  'success': function(response){
+       //alert("success");
+      var mediaurl=getimgurl(mediatype);
+      $(".project_lists").prepend('<div class="pl_thumbHolder" data-media-type="'+mediatype+'">'+
+              '<div class="thumb-edit-overlay"></div>'+
+              '<div class="thumbnail">'+
+                '<img src="'+response.media_url+'" alt="demo1">'+
+                '<div class="caption">'+
+                  '<p>'+response.media_title+'</p>'+
+                 ' <a href=""><img src="'+mediaurl+'" alt="videos"></a>'+
+                '</div>'+
+
+                '<div class="thumb-edit-icons">'+
+                 ' <div class="squaredThree">'+
+                  '  <input type="checkbox" value="None" id="test_1" name="check" />'+
+                  '  <label for="test_1"></label>'+
+                 ' </div>'+
+                 //' <a href=""><img src="/static/images/Edit/img-pen.png" alt="Edit"></a>'+
+                '</div>'+
+             ' </div>'+
+            '</div>');
+
+        },
+        'error':function(re){
+            alert("error in creating project");
+        }
+});
+    });

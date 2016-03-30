@@ -116,15 +116,16 @@ class projects(models.Model):
 
     def was_posted_recently(self):
         return self.posted_date >= timezone.now() - datetime.timedelta(days=1)
-class media():
+
+class media(models.Model):
     user_id=models.ForeignKey(User,on_delete=models.CASCADE)
     project_id=models.ForeignKey(projects,on_delete=models.CASCADE)
-    posted_date = models.DateTimeField('date posted',default=timezone.now)
+    uploaded_date = models.DateTimeField('date posted',default=timezone.now)
     media_type = models.CharField(max_length=40)
     media_url = models.CharField(max_length=200)
-    media_thumbnail_url=models.CharField(max_length=200)
-    media_details=models.CharField(max_length=500)
-    media_title= models.CharField(max_length=100)
+    media_thumbnail_url=models.CharField(max_length=200,default="http://")
+    media_details=models.CharField(max_length=500,default="mediadetails")
+    media_title= models.CharField(max_length=100,default="mediatitle")
 
     class Meta:
-        db_table = "creativesaccount"
+        db_table = "mediadetails"

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from app.home.models import User,projects
+from app.home.models import User,projects,media
 from app.home.jwt_helper import get_json_web_token
 
 
@@ -54,3 +54,8 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model=User
         fields=('user_name','contact_number','aboutme','profile_url','location','gender')
+
+class MediaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=media
+        fields=('user_id','project_id','media_type','media_url','media_thumbnail_url','media_details','media_title')

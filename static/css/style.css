@@ -1211,7 +1211,7 @@ body{
 		position: absolute;
 		width: 100%;
 		top: 0;
-		display: none;
+
 	}
 	.thumb-edit:hover .thumb-edit-icons{
 		display: block !important;
