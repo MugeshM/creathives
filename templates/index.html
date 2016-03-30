@@ -375,7 +375,7 @@
           <div class="project_lists">
             <!-- Portfolio Edit add class="thumb-edit"-->
 
-{#            <div class="pl_thumbHolder">#}
+{#            <div class="pl_thumbHolder" data-media-id="1" data-media-type="video">#}
 {#              <div class="thumb-edit-overlay"></div>#}
 {#              <div class="thumbnail">#}
 {#                <img src="/static/images/latest/lp1.png" alt="demo1">#}
@@ -389,10 +389,27 @@
 {#                    <input type="checkbox" value="None" id="test_1" name="check" />#}
 {#                    <label for="test_1"></label>#}
 {#                  </div>#}
-{#                  <a href=""><img src="/static/images/Edit/img-pen.png" alt="Edit"></a>#}
 {#                </div>#}
 {#              </div>#}
 {#            </div>#}
+{#            <div class="pl_thumbHolder" data-media-id="2" data-media-type="video">#}
+{#              <div class="thumb-edit-overlay"></div>#}
+{#              <div class="thumbnail">#}
+{#                <img src="/static/images/latest/lp1.png" alt="demo1">#}
+{#                <div class="caption">#}
+{#                  <p>Lorem ipsum diet your text goes here...</p>#}
+{#                  <a href=""><img src="/static/images/header/videos-black.png" alt="videos"></a>#}
+{#                </div>#}
+{#                <!-- Portfolio Edit -->#}
+{#                <div class="thumb-edit-icons">#}
+{#                  <div class="squaredThree">#}
+{#                    <input type="checkbox" value="None" id="test_1" name="check"/>#}
+{#                    <label for="test_1"></label>#}
+{#                  </div>#}
+{#                </div>#}
+{#              </div>#}
+{#            </div>#}
+
 
 
           </div>
@@ -400,27 +417,24 @@
 
         <!-- Portfolio Edit -->
         <div class="countDisplay hide">
-          <span>3</span> images and <span>5</span> videos selected
+          <span> </span>
           <button class="btn btn-black">DELETE</button>
         </div>
 
         <!-- Video Gallery -->
 
-        <div class="video-modal" >
+        <div class="video-modal">
           <div class="gallery-header">
-            <h4>Add a project title</h4>
-            <span class="viewer-close">2 | 4</span>
+            <h4  id="mediatitle" style="width:400px;"></h4>
+            <span class="viewer-close"></span>
           </div>
           <div class="video-modal-left" >
             <div class="video-viewer large">
               <div class="player">
                 <div class="mediaplayer">
-                  <!-- <div class="ytp--layer"></div> -->
-                  <!-- <video controls preload=metadata width='1280' height='480' poster='media/samplevideo.jpg'>
-                    <source src='images/mango.mp4' type="video/mp4"><source src='images/mango.webm' type="video/webm"><source src='images/mango.ogg' type="video/ogg">
-                      <p>Please use a modern browser to view this video.</p>
-                    </video> -->
-                  <iframe width="100%" height="100%" scrolling="no" title="YouTube video player" src="//www.youtube.com/embed/ni-1ielKlsk?showinfo=0&amp;iv_load_policy=3&amp;modestbranding=1&amp;nologo=1&amp;controls=2&amp;rel=0&amp;auto=1&amp;wmode=transparent&amp;enablejsapi=1&amp;html5=1&amp;" frameborder="0" allowfullscreen=""></iframe>
+
+{#                  <iframe width="100%" height="100%" scrolling="no" title="YouTube video player" src="//www.youtube.com/embed/ni-1ielKlsk?showinfo=0&amp;iv_load_policy=3&amp;modestbranding=1&amp;nologo=1&amp;controls=2&amp;rel=0&amp;auto=1&amp;wmode=transparent&amp;enablejsapi=1&amp;html5=1&amp;" frameborder="0" allowfullscreen=""></iframe>#}
+
                 </div>
                 <div class="loader-display ">
                   <div class="upload-progress-bar">
@@ -437,15 +451,9 @@
               </div>
 
             </div>
-            <div class="video-thumbnails large">
+            <div class="video-thumbnails large hide">
               <ul>
                 <li>
-                  <div class="thumb-progress-bar">
-                    <div class="progress">
-                      <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                      </div>
-                    </div>
-                  </div>
                   <a href="" class="active">
                     <img src="/static/images/latest/project1.png" alt="">
                   </a>
@@ -460,70 +468,29 @@
                     <img src="/static/images/latest/project1.png" alt="">
                   </a>
                 </li>
-                <li>
-                  <a href="">
-                    <img src="/static/images/latest/project1.png" alt="">
-                  </a>
-                </li>
-                <li>
-                  <a href="">
-                    <img src="/static/images/latest/project1.png" alt="">
-                  </a>
-                </li>
-                <li>
-                  <a href="">
-                    <img src="/static/images/latest/project1.png" alt="">
-                  </a>
-                </li>
+
               </ul>
             </div>
           </div>
+
           <div class="video-modal-right">
-            <div class="video-viewer small">
-              <img src="/static/images/banner2.png" alt="video">
-              <span class="video-duration">10:51:09</span>
-            </div>
-            <div class="video-thumbnails small">
-              <ul>
-                <li>
-                  <a href="" class="active">
-                    <img src="/static/images/latest/project1.png" alt="">
-                  </a>
-                </li>
-                <li>
-                  <a href="">
-                    <img src="/static/images/latest/project1.png" alt="">
-                  </a>
-                </li>
-                <li>
-                  <a href="">
-                    <img src="/static/images/latest/project1.png" alt="">
-                  </a>
-                </li>
-                <li>
-                  <a href="">
-                    <img src="/static/images/latest/project1.png" alt="">
-                  </a>
-                </li>
-                <li>
-                  <a href="">
-                    <img src="/static/images/latest/project1.png" alt="">
-                  </a>
-                </li>
-                <li>
-                  <a href="">
-                    <img src="/static/images/latest/project1.png" alt="">
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div class="video-desc">
-              <h4>Video Details</h4>
-              <h5>Video title pulled from youtube</h5>
-              <a href="">https://www.youtube.com/watch?v=brME5ZgKbUo</a>
-              <h5>Lorem ipsum diet your text goes here</h5>
-              <hr>
-              <p>Lorem ipsum diet your text goes here your text goes here your text goes here </p>
+          <div class="video-desc">
+              <div style="float:right;font-size: 25px;">
+                  <span id="editmedia" class="glyphicon glyphicon-edit"></span>
+                  <span id="updatemedia" class="glyphicon glyphicon-floppy-disk hide" ></span>
+              </div>
+              <div class="media-desc" style="overflow-x: hidden;overflow-y: hidden;word-break: break-all;">
+
+                  <h4  id="mediatitleleft" contentEditable="flase">
+
+                  </h4><span class="glyphicon glyphicon-calendar"></span>
+                  <span id="uploaddate" >
+
+                  </span>
+                  <p contentEditable="false" id="mediadetail">
+
+                   </p>
+                </div>
             </div>
           </div>
           <div class="gallery-footer">

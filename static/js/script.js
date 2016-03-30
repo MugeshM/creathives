@@ -30,6 +30,7 @@ var curprojid=0;
            // alert(response.projcount);
             $(".projcount").html(response.projcount+" Projects");
             $("#rightView_content").addClass("hide");
+            $(".project_lists").hide();
         },
         'error':function(re){
 
@@ -39,6 +40,8 @@ var curprojid=0;
 
 e.stopPropagation();
 });
+var mediacurrentselection="";
+var projectcurrentselection="";
 $(".articles").on("click",function(){
 	$(".all").removeClass("active");
 	$(".videos").removeClass("active");
@@ -47,8 +50,11 @@ $(".articles").on("click",function(){
 	$(".articles").addClass("active");
 	$("#rightView_content").hide();
 	//$(".project_lists").hide();
-     $(".project_lists .pl_thumbHolder[data-media-type='article']").show();
-     $(".project_lists .pl_thumbHolder[data-media-type!='article']").hide();
+
+    mediacurrentselection="article";
+    if(projectcurrentselection!=0) {
+        getmediadetails(projectcurrentselection,mediacurrentselection,0);
+    }
 });
 $(".all").on("click",function(){
 	$(".all").addClass("active");
@@ -57,11 +63,15 @@ $(".all").on("click",function(){
 	$(".images").removeClass("active");
 	$(".articles").removeClass("active");
 	$("#rightView_content").show();
-	$(".project_lists").show();
-    $(".project_lists .pl_thumbHolder").show();
+	//$(".project_lists").show();
+    //$(".project_lists .pl_thumbHolder").show();
+    mediacurrentselection="";
+    //alert(projectcurrentselection+" "+mediacurrentselection);
+    if(projectcurrentselection!=0) {
+        getmediadetails(projectcurrentselection,mediacurrentselection,0);
+    }
 });
-//$(".videos").on("click",function(){
-   $(document).on('click','.videos',function(){
+$(".videos").on("click",function(){
 	$(".all").removeClass("active");
 	$(".videos").addClass("active");
 	$(".tracks").removeClass("active");
@@ -69,8 +79,11 @@ $(".all").on("click",function(){
 	$(".articles").removeClass("active");
 	$("#rightView_content").hide();
 	//$(".project_lists").hide();
-     $(".project_lists .pl_thumbHolder[data-media-type='video']").show();
-     $(".project_lists .pl_thumbHolder[data-media-type!='video']").hide();
+
+       mediacurrentselection="video";
+    if(projectcurrentselection!=0) {
+        getmediadetails(projectcurrentselection,mediacurrentselection,0);
+    }
 });
 $(".tracks").on("click",function(){
 	$(".all").removeClass("active");
@@ -80,8 +93,11 @@ $(".tracks").on("click",function(){
 	$(".articles").removeClass("active");
 	$("#rightView_content").hide();
 	//$(".project_lists").hide();
-     $(".project_lists .pl_thumbHolder[data-media-type='track']").show();
-     $(".project_lists .pl_thumbHolder[data-media-type!='track']").hide();
+
+    mediacurrentselection="track";
+    if(projectcurrentselection!=0) {
+        getmediadetails(projectcurrentselection,mediacurrentselection,0);
+    }
 });
 $(".images").on("click",function(){
 	$(".all").removeClass("active");
@@ -91,8 +107,11 @@ $(".images").on("click",function(){
 	$(".articles").removeClass("active");
 	$("#rightView_content").hide();
 	//$(".project_lists").hide();
-     $(".project_lists .pl_thumbHolder[data-media-type='image']").show();
-     $(".project_lists .pl_thumbHolder[data-media-type!='image']").hide();
+
+    mediacurrentselection="image";
+    if(projectcurrentselection!=0) {
+        getmediadetails(projectcurrentselection,mediacurrentselection,0);
+    }
 });
 $("li").hover(function(){
     $(this).css("cursor", "pointer");
@@ -100,6 +119,33 @@ $("li").hover(function(){
     }, function(){
 });
 
+function getmediadetails(projectid,mtype,mid)
+{
+      var data = {
+        'project_id' :projectid,
+         "mtype":mtype,
+         'mid':mid,
+    }
+    console.log(data)
+    $.ajax({
+        'url':'/home/mediadetails/',
+        'method':'post',
+        'data':data,
+        'success': function(response){
+        console.log(response);
+            if(mid==0) {
+                display_projectlist(response.mediadata, response.mediacount);
+            }
+            else{
+                changemodalcontent(response);
+            }
+        },
+        'error':function(re){
+
+        }
+    });
+
+}
     // resize
 	function modalHeight() {
 		videoHeight = $(window).height();
@@ -164,11 +210,47 @@ $("li").hover(function(){
 	//	$('.body-overlay').fadeIn();
 	//})
 
-    $( document ).on( 'click',".pl_thumbHolder .thumbnail", function() {
+    $( document ).on( 'click',".pl_thumbHolder .thumbnail", function(e) {
+
+        //alert($(this).parent().data("media-id"));
+        $(".video-modal").data("media-id",$(this).parent().data("media-id"));
+        var m=$(this).parent().data("media-type");
+        $(".video-modal").data("media-type",m);
+        getmediadetails(projectcurrentselection,m,$(this).parent().data("media-id"));
+        //alert($(this).parent().data("media-id")+" "+$(".video-modal").data("media-id"));
+        //alert($(this).parent().data("media-type")+" "+$(".video-modal").data("media-type"));
         $('body').css('overflow', 'hidden');
 		$('.video-modal').fadeIn();
 		$('.body-overlay').fadeIn();
     });
+var mediaurl="";
+   function changemodalcontent(res){
+       //console.log("-----------");
+       //console.log(res[0].media_type);
+       mediaurl=res[0].media_url;
+       $("#mediatitle").html(res[0].media_title);
+       $("#mediatitleleft").html(res[0].media_title);
+       $("#uploaddate").html(" Uploaded date : "+res[0].uploaded_date.substring(0, 10));
+       $("#mediadetail").html(res[0].media_details);
+        if(res[0].media_type=="image")
+        {
+            $(".mediaplayer").replaceWith('<div class="mediaplayer"><img height="100%" src="'+res[0].media_url+'"></div>');
+            $(".video-thumbnails ul li:eq(0) img").attr("src",res[0].media_url);
+        }
+       else if(res[0].media_type=="video"){
+           $(".mediaplayer").replaceWith('<div class="mediaplayer"> <video  controls>'+
+                                        '<source src="'+res[0].media_url+'" type="video/mp4">'+
+                                        'Your browser does not support the video tag.'+
+                                        '</video> </div>');
+        }
+       else if(res[0].media_type=='article'){
+           $(".mediaplayer").replaceWith('<div class="mediaplayer"> <iframe width="100%" height="100%" src="'+res[0].media_url+'"></iframe></div>');
+        }
+       else if(res[0].media_type=='track'){
+           $(".mediaplayer").replaceWith('<div class="mediaplayer"><audio controls  style="width:100%;height:30%;margin-top:25%;">'+
+                                            '<source src="'+res[0].media_url+'" type="audio/ogg"></audio></div>');
+        }
+   }
 
     $('.btn-done').click(function(){
 		$('body').css('overflow', 'visible');
@@ -275,6 +357,9 @@ function update(){
         $(".left-panel-scroll ul").find("[data-project-id="+response.data.id+"]").find("span").html(response.data.project_title);
         $(".left-panel-scroll ul").find("[data-project-id="+response.data.id+"]").find("img:eq(0)").attr("src",response.data.thumbnail_url);
 
+     $(".projcount").removeClass("hide");
+     $("#add").removeClass("hide");
+     $("#cancel").addClass("hide");
         },
         'error':function(re){
 
@@ -333,6 +418,7 @@ $("#mediaURL").val("http://");
                ' </div>'+
               '</li>');
       //alert( newprojflag);
+      $(".project_lists").hide();
   });
   $("#cancel").click(function(){
      $(".projcount").removeClass("hide");
@@ -380,12 +466,14 @@ $.ajax({
 
 //$("#rightviewul li").click(function(e){
 $(document.body).on('click', "#rightviewul li" ,function(){
+
 //alert("click");
     if($(this).data("project-id")!=0) {
         $(this).addClass("active");
         $(this).siblings().removeClass("active");
     }
     curprojid=$(this).data("project-id");
+    projectcurrentselection=curprojid;
     //alert($(this).data("project-id"));
      var data = {
         'project_id' : $(this).data("project-id"),
@@ -398,7 +486,7 @@ $(document.body).on('click', "#rightviewul li" ,function(){
         'data':data,
         'success': function(response){
         console.log(response);
-
+$(".project_lists").show();
 $("#rightView_content").removeClass("hide");
 $("#rightView_content").find(".pH_row-edit").attr("data-project-id",response.projdata.id);
 $("#rightView_content").find(".media-object").attr("src",response.projdata.thumbnail_url);
@@ -408,6 +496,13 @@ $("#rightView_content").find(".media-body .edit-projDesc").html(response.projdat
 $("#mediaURL").val(response.projdata.project_url);
 
 display_projectlist(response.mediadata,response.mediacount);
+    $(".all").addClass("active");
+	$(".videos").removeClass("active");
+	$(".tracks").removeClass("active");
+	$(".images").removeClass("active");
+	$(".articles").removeClass("active");
+	$("#rightView_content").show();
+
         },
         'error':function(re){
 
@@ -418,11 +513,12 @@ display_projectlist(response.mediadata,response.mediacount);
 
 function display_projectlist(medialist,mediacount)
 {
+    console.log(medialist);
 var e='<div class="project_lists">';
     for(i=0;i<mediacount;i++)
     {
       var mediaurl=getimgurl(medialist[i].media_type);
-      e+='<div class="pl_thumbHolder"  data-media-type="'+medialist[i].media_type+'">'+
+      e+='<div class="pl_thumbHolder"  data-media-type="'+medialist[i].media_type+'" data-media-id="'+medialist[i].id+'">'+
               '<div class="thumb-edit-overlay"></div>'+
               '<div class="thumbnail">'+
                 '<img src="'+medialist[i].media_url+'" alt="demo1">'+
@@ -436,7 +532,6 @@ var e='<div class="project_lists">';
                   '  <input type="checkbox" value="None" id="test_1" name="check" />'+
                   '  <label for="test_1"></label>'+
                  ' </div>'+
-                 //' <a href=""><img src="/static/images/Edit/img-pen.png" alt="Edit"></a>'+
                 '</div>'+
              ' </div>'+
             '</div>';
@@ -557,7 +652,7 @@ $.ajax({
   'success': function(response){
        //alert("success");
       var mediaurl=getimgurl(mediatype);
-      $(".project_lists").prepend('<div class="pl_thumbHolder" data-media-type="'+mediatype+'">'+
+      $(".project_lists").prepend('<div class="pl_thumbHolder" data-media-type="'+mediatype+'" data-media-id="'+response.id+'">'+
               '<div class="thumb-edit-overlay"></div>'+
               '<div class="thumbnail">'+
                 '<img src="'+response.media_url+'" alt="demo1">'+
@@ -582,3 +677,123 @@ $.ajax({
         }
 });
     });
+
+$("#editmedia").on("click",function(){
+    $("#mediatitleleft").attr("contentEditable","True");
+    $("#mediadetail").attr("contentEditable","True");
+    $(this).addClass("hide");
+    $("#updatemedia").removeClass("hide");
+    //alert($(".video-modal").data("media-id")+$(".video-modal").data("media-type"));
+});
+$("#updatemedia").on("click",function(){
+    $("#mediatitleleft").attr("contentEditable","False");
+    $("#mediadetail").attr("contentEditable","False");
+    $(this).addClass("hide");
+    $("#editmedia").removeClass("hide");
+
+    var data = {
+		'project_id':projectcurrentselection,
+        'mid' :$(this).parents(".video-modal").data("media-id"),
+        'media_type' : $(this).parents(".video-modal").data("media-type"),
+        'media_title' : removebr($("#mediatitleleft").html().trim()),
+        'media_details' : removebr($("#mediadetail").html().trim()),
+        'media_url' : mediaurl,
+    }
+    console.log(data)
+    $.ajax({
+        'url':'/home/updatemedia/',
+        'method':'post',
+        'data':data,
+        'success': function(response){
+        //alert(response.id);
+        },
+        'error':function(re){
+        alert("Error updating media");
+        }
+    })
+});
+
+$(document).on("click",".thumb-edit-icons .squaredThree",function(e){
+//$(".thumb-edit-icons .squaredThree").on("click",function(e){
+   e.preventDefault();
+
+   e.stopPropagation();
+   var ckbox=$(this).find("input[type='checkbox']");
+   ckbox.prop("checked", !ckbox.prop("checked"));
+   var smediaitems=$(".thumb-edit-icons .squaredThree input[type='checkbox']:checked:enabled");
+   var len=smediaitems.length;
+    //for(i=0;i<len;i++) {
+    //    selectedmediaitems.push($(".thumb-edit-icons .squaredThree input[type='checkbox']:checked:enabled:eq("+i+")").parents(".pl_thumbHolder").data("media-id"));
+    //}
+    //alert(selectedmediaitems);
+    //alert($(".thumb-edit-icons .squaredThree input[type='checkbox']:checked:enabled").parents(".pl_thumbHolder[data-media-type='video']").length);
+    var selectedvideoitems=$(".thumb-edit-icons .squaredThree input[type='checkbox']:checked:enabled").parents(".pl_thumbHolder[data-media-type='video']").length;
+    var selectedaudioitems=$(".thumb-edit-icons .squaredThree input[type='checkbox']:checked:enabled").parents(".pl_thumbHolder[data-media-type='track']").length;
+    var selectedarticleitems=$(".thumb-edit-icons .squaredThree input[type='checkbox']:checked:enabled").parents(".pl_thumbHolder[data-media-type='article']").length;
+    var selectedimageitems=$(".thumb-edit-icons .squaredThree input[type='checkbox']:checked:enabled").parents(".pl_thumbHolder[data-media-type='image']").length;
+    var counttext="";
+    if(selectedvideoitems!=0){counttext=selectedvideoitems+" Videos  "}
+    else if(selectedarticleitems!=0){counttext+=selectedarticleitems+" Articles "}
+    else if(selectedimageitems!=0){counttext+=selectedimageitems+" Images "}
+    else if(selectedaudioitems!=0){counttext+=selectedaudioitems+" Tracks "}
+    if(len!=0){counttext+=" are selected."}
+    $(".countDisplay span").html(counttext);
+    counttext="";
+    $(".countDisplay").removeClass("hide");
+});
+
+//event to delete media items
+var selectedmediaitems=[];
+$(".countDisplay button").on("click",function(){
+    var smediaitems=$(".thumb-edit-icons .squaredThree input[type='checkbox']:checked:enabled");
+    var len=smediaitems.length;
+    for(i=0;i<len;i++) {
+        selectedmediaitems.push($(".thumb-edit-icons .squaredThree input[type='checkbox']:checked:enabled:eq("+i+")").parents(".pl_thumbHolder").data("media-id"));
+    }
+    alert(selectedmediaitems);
+
+     var data = {
+		'project_id':projectcurrentselection,
+        'selectedmedia':selectedmediaitems,
+    }
+    console.log(data)
+    $.ajax({
+        'url':'/home/deletemedia/',
+        'method':'post',
+        'data':data,
+        'success': function(response){
+        console.log(response);
+        for(i=0;i<len;i++) {
+        $(".thumb-edit-icons .squaredThree input[type='checkbox']:checked:enabled:eq("+i+")").parents(".pl_thumbHolder").remove();
+         }
+        },
+        'error':function(re){
+        alert("Error updating media");
+        }
+    })
+
+    selectedmediaitems=[];
+});
+
+
+$(window).scroll(function()
+{
+    if($(window).scrollTop() == $(document).height() - ($(window).height()))
+    {
+        alert($(document).height());
+        //$.ajax({
+        //url: "loadmore.php",
+        //success: function(html)
+        //{
+        //    if(html)
+        //    {
+        //         $("#postswrapper").append(html);
+        //        $('div#loadmoreajaxloader').hide();
+        //    }else
+        //    {
+        //        $('div#loadmoreajaxloader').html('<center>No more posts to show.</center>');
+        //    }
+        //}
+        //});
+    }
+});

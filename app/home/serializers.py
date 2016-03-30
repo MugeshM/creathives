@@ -58,4 +58,4 @@ class ProfileSerializer(serializers.ModelSerializer):
 class MediaSerializer(serializers.ModelSerializer):
     class Meta:
         model=media
-        fields=('user_id','project_id','media_type','media_url','media_thumbnail_url','media_details','media_title')
+        fields=('user_id','project_id','media_type','media_url','media_thumbnail_url','media_details','media_title','id','uploaded_date')

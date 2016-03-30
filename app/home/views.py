@@ -21,6 +21,7 @@ from django.template import Context
 from django.http import QueryDict
 import json
 from django.core import serializers
+from ast import literal_eval
 
 @login_required
 def home(request):
@@ -196,8 +197,8 @@ def projectdetailupdate(request):
             # res=projects.objects.get(id=request.data.get("project_id"))
             # print res.project_desc
             serializer=ProjectSerializer(projects.objects.get(id=request.data.get("project_id")))
-            mediadata=MediaSerializer(media.objects.filter(user_id=request.user.id,project_id=request.data.get("project_id")),many=True)
-            mediacount=media.objects.filter(user_id=request.user.id,project_id=request.data.get("project_id")).count()
+            mediadata=MediaSerializer(media.objects.filter(user_id=request.user.id,project_id=request.data.get("project_id"))[:2],many=True)
+            mediacount=media.objects.filter(user_id=request.user.id,project_id=request.data.get("project_id"))[:2].count()
             return Response({"projdata":serializer.data,"mediacount":mediacount,'mediadata':mediadata.data},status=status.HTTP_200_OK)
         elif request.data.get("flag")=="update":
             print "update"
@@ -238,6 +239,8 @@ def deleteproject(request):
     if request.method == 'POST':
         print request.data
         projects.objects.get(id=request.data.get("proj_id"),user_id=request.user.id).delete()
+        if(media.objects.filter(project_id=request.data.get("proj_id"),user_id=request.user.id).count()):
+            media.objects.filter(project_id=request.data.get("proj_id"),user_id=request.user.id).delete()
         delete_projectfolder(request.user,"Project"+str(request.data.get("proj_id")))
         count= projects.objects.filter(user_id=request.user.id).count()
         print count
@@ -258,3 +261,50 @@ def handlemediaupload(request):
             serializer.save()
             return Response(serializer.data,status=status.HTTP_200_OK)
    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+@login_required()
+@permission_classes((AllowAny,))
+def mediadetails(request):
+  if(int(request.data.get("mid"))==0):
+    if(request.data.get("mtype")!=""):
+        mediadata=MediaSerializer(media.objects.filter(user_id=request.user.id,media_type=request.data.get("mtype"),project_id=request.data.get("project_id"))[:2],many=True)
+        mediacount=media.objects.filter(user_id=request.user.id,media_type=request.data.get("mtype"),project_id=request.data.get("project_id"))[:2].count()
+    else:
+        mediadata=MediaSerializer(media.objects.filter(user_id=request.user.id,project_id=request.data.get("project_id"))[:2],many=True)
+        mediacount=media.objects.filter(user_id=request.user.id,project_id=request.data.get("project_id"))[:2].count()
+    return Response({"mediacount":mediacount,'mediadata':mediadata.data},status=status.HTTP_200_OK)
+  else:
+      mediadata=MediaSerializer(media.objects.filter(user_id=request.user.id,id=request.data.get("mid"))[:2],many=True)
+      return Response(mediadata.data,status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+@login_required()
+@permission_classes((AllowAny,))
+def updatemedia(request):
+            try:
+             con=media.objects.get(id=request.data.get("mid"),user_id=request.user.id,project_id=request.data.get("project_id"));
+            except User.DoesNotExist:
+             return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+            # count= media.objects.filter(user_id=request.user.id).count()
+            dict={"user_id":str(request.user.id)}
+            dict.update(request.data.dict())
+            serializer = MediaSerializer(con, data=dict)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data,status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+@login_required()
+@permission_classes((AllowAny,))
+def deletemedia(request):
+    if request.method == 'POST':
+        l=request.data.getlist("selectedmedia[]")
+        print l
+        d = [s.encode('ascii') for s in l]
+        d=map(int, d)
+        print d
+        media.objects.filter(project_id=request.data.get("project_id"),id__in=d,user_id=request.user.id).delete()
+        return Response({"msg":"Selected items Deleted successfully"},status=status.HTTP_200_OK)

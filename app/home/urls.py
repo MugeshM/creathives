@@ -17,4 +17,7 @@ urlpatterns = [
     url(r'^uploadprojthumb/', views.uploadprojthumb, name='uploadprojthumb'),
     url(r'^deleteproject/', views.deleteproject, name='deleteproject'),
     url(r'^handlemediaupload/', views.handlemediaupload, name='handlemediaupload'),
+    url(r'^mediadetails/', views.mediadetails, name='mediadetails'),
+    url(r'^updatemedia/', views.updatemedia, name='updatemedia'),
+    url(r'^deletemedia/', views.deletemedia, name='deletemedia'),
 ]
