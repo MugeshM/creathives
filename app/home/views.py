@@ -250,18 +250,28 @@ def deleteproject(request):
 @login_required()
 @permission_classes((AllowAny,))
 def handlemediaupload(request):
-   print request.data
-   mediaupload(request.FILES.get("file"),request.data.get("mediatype"),request.FILES.get("file").name,request.user,"Project"+request.data.get('projid'))
-   'user_id','project_id','media_type','media_url','media_thumbnail_url','media_details','media_title'
-   media_url="/static/media/"+str(request.user)+"/"+"Project"+request.data.get('projid')+"/"+request.data.get("mediatype")+"/"+request.FILES.get("file").name
-   data={'user_id':request.user.id,'project_id':request.data.get('projid'),'media_url':media_url,'media_type':request.data.get("mediatype")}
-   print data
-   serializer=MediaSerializer(data=data)
-   if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data,status=status.HTTP_200_OK)
-   return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+   print "hgh"
+   if(int(request.data.get("ytube"))==0):
+           print "media"
+           mediaupload(request.FILES.get("file"),request.data.get("mediatype"),request.FILES.get("file").name,request.user,"Project"+request.data.get('projid'))
+           # 'user_id','project_id','media_type','media_url','media_thumbnail_url','media_details','media_title'
+           media_url="/static/media/"+str(request.user)+"/"+"Project"+request.data.get('projid')+"/"+request.data.get("mediatype")+"/"+request.FILES.get("file").name
+           data={'user_id':request.user.id,'project_id':request.data.get('projid'),'media_url':media_url,'media_type':request.data.get("mediatype")}
+           print data
+           serializer=MediaSerializer(data=data)
+           if serializer.is_valid():
+                    serializer.save()
+                    return Response(serializer.data,status=status.HTTP_200_OK)
+           return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+   else:
+       print "ytube insert"
+       dict={"user_id":str(request.user.id)}
+       dict.update(request.data.dict())
+       serializer=MediaSerializer(data=dict)
+       if serializer.is_valid():
+                    serializer.save()
+                    return Response(serializer.data,status=status.HTTP_200_OK)
+       return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 @login_required()

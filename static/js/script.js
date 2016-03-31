@@ -244,10 +244,19 @@ var mediaurl="";
             $(".video-thumbnails ul li:eq(0) img").attr("src",res[0].media_url);
         }
        else if(res[0].media_type=="video"){
-           $(".mediaplayer").replaceWith('<div class="mediaplayer"> <video  controls>'+
-                                        '<source src="'+res[0].media_url+'" type="video/mp4">'+
-                                        'Your browser does not support the video tag.'+
-                                        '</video> </div>');
+          if(res[0].media_url.startsWith("https://www.youtube.com/"))
+          {
+    var rx = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
+    var r = res[0].media_url.match(rx);
+               $(".mediaplayer").replaceWith('<div class="mediaplayer">'+
+           ' <iframe width="100%" height="100%" scrolling="no" title="'+res[0].media_title+'" src="http://www.youtube.com/embed/'+r[1]+'" frameborder="0" allowfullscreen=""></iframe> </div>');
+
+          }else{
+              $(".mediaplayer").replaceWith('<div class="mediaplayer"> <video  controls>' +
+                  '<source src="' + res[0].media_url + '" type="video/mp4">' +
+                  'Your browser does not support the video tag.' +
+                  '</video> </div>');
+          }
         }
        else if(res[0].media_type=='article'){
            $(".mediaplayer").replaceWith('<div class="mediaplayer"> <iframe width="100%" height="100%" src="'+res[0].media_url+'"></iframe></div>');
@@ -653,6 +662,7 @@ $("#muploadform").change(function (e){
     data.append("file",$file);
     data.append("projid",proj);
     data.append("mediatype",mediatype);
+    data.append('ytube',0);
     console.log(data)
 $.ajax({
   url: "handlemediaupload/",
@@ -800,12 +810,15 @@ $(".countDisplay button").on("click",function(){
 
 var executed = false;
 
+var div_top = $('.project_lists').offset().top;
+
 //infinte scrolling
 $(window).scroll(function()
 {
-            var window_top = $(window).scrollTop();
-			var div_top = $('.project_lists').offset().top;
+       var window_top = $(window).scrollTop();
 			if (window_top > div_top) {
+
+                div_top = $('.project_lists').offset().top;
 
                 if (!executed) {
                     executed = true;
@@ -832,7 +845,7 @@ $(window).scroll(function()
                             'success': function (response) {
                                 console.log(response);
                                 apppendMedia(response.mediadata, response.mediacount);
-
+                                div_top=window_top+100
                             },
                             'error': function (re) {
 
@@ -879,4 +892,82 @@ function apppendMedia(medialist,mediacount){
     }
      $(".project_lists").append(e);
      $("#loaderimage").addClass("hide");
+
+}
+
+ $("#ytubebtn").on("click",function(){
+
+     $("#yloadimg").removeClass("hide");
+     var url=$("#ytubetext").val();
+     var rx = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
+
+    var r = url.match(rx);
+    console.log(r[1]);
+
+
+    $.getJSON('https://www.googleapis.com/youtube/v3/videos?id=' + r[1] + '&key=AIzaSyCI59qmjWUSZOFnNQnIHy-nYKKx3lIcPL0&part=snippet&callback=?', function (data) {
+
+        if (typeof(data.items[0]) != "undefined") {
+            console.log('video exists ' + data.items[0].snippet.title);
+            console.log(data.items[0].snippet.thumbnails.medium.url);
+            uploadytubemedia(url,data.items[0].snippet.title,data.items[0].snippet.description,data.items[0].snippet.thumbnails.medium.url)
+            $("#yloadimg").addClass("hide");
+
+            $(".alert").html('Media Added Successfully');
+            $(".alert").addClass("alert-success");
+            $(".alert").removeClass("alert-danger");
+
+        } else {
+             $("#yloadimg").addClass("hide");
+            $(".alert").html('Youtube Video not exists');
+            $(".alert").addClass("alert-danger");
+            $(".alert").removeClass("alert-success");
+        }
+    });
+ });
+
+function uploadytubemedia(mediaurl,mediatitle,mediadetail,thumbnailurl){
+     //alert("nn")
+              var data = {
+                            "project_id": projectcurrentselection,
+                            'media_type': mediatype,
+                            'media_url':mediaurl,
+                            'media_thumbnail_url':thumbnailurl,
+                            'media_details':mediadetail,
+                            'media_title':mediatitle,
+                            'ytube':1,
+                        }
+    $.ajax({
+      url: "handlemediaupload/",
+      type: "POST",
+      data: data,
+      'success': function(response){
+           //alert("success");
+
+          var url="";
+          //alert("sdf")
+          $(".project_lists").prepend('<div class="pl_thumbHolder" data-media-type="'+mediatype+'" data-media-id="'+response.id+'">'+
+                  '<div class="thumb-edit-overlay"></div>'+
+                  '<div class="thumbnail">'+
+                    '<img src="'+thumbnailurl+'" alt="demo1">'+
+                    '<div class="caption">'+
+                      '<p>'+response.media_title+'</p>'+
+                     ' <a href=""><img src="'+response.media_url+'" alt="videos"></a>'+
+                    '</div>'+
+
+                    '<div class="thumb-edit-icons">'+
+                     ' <div class="squaredThree">'+
+                      '  <input type="checkbox" value="None" id="test_1" name="check" />'+
+                      '  <label for="test_1"></label>'+
+                     ' </div>'+
+                     //' <a href=""><img src="/static/images/Edit/img-pen.png" alt="Edit"></a>'+
+                    '</div>'+
+                 ' </div>'+
+                '</div>');
+
+            },
+            'error':function(re){
+                alert("error in creating project");
+            }
+    });
 }
