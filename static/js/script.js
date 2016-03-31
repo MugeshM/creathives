@@ -118,13 +118,16 @@ $("li").hover(function(){
     $(this).css("cursor", "hand");
     }, function(){
 });
-
+//var start=0,end=2;
 function getmediadetails(projectid,mtype,mid)
 {
       var data = {
         'project_id' :projectid,
          "mtype":mtype,
          'mid':mid,
+         'scroll':0,
+         //'start':start,
+         //'end':end,
     }
     console.log(data)
     $.ajax({
@@ -139,6 +142,8 @@ function getmediadetails(projectid,mtype,mid)
             else{
                 changemodalcontent(response);
             }
+            //start+=2;
+            //end+=2;
         },
         'error':function(re){
 
@@ -177,6 +182,7 @@ function getmediadetails(projectid,mtype,mid)
 			var targetOffset = $("#anchor-point").offset().top;
 
 			if (window_top > div_top) {
+                //alert("df");
 				//$('.leftPanel').addClass('stick');
 				$('.hd').removeClass('hide');
 				$('.nav-categories').addClass('hide');
@@ -517,11 +523,17 @@ function display_projectlist(medialist,mediacount)
 var e='<div class="project_lists">';
     for(i=0;i<mediacount;i++)
     {
+      var url="";
+      if(medialist[i].media_type =="image") {
+         url=medialist[i].media_url;
+      }else{
+         url=medialist[i].media_thumbnail_url
+      }
       var mediaurl=getimgurl(medialist[i].media_type);
       e+='<div class="pl_thumbHolder"  data-media-type="'+medialist[i].media_type+'" data-media-id="'+medialist[i].id+'">'+
               '<div class="thumb-edit-overlay"></div>'+
               '<div class="thumbnail">'+
-                '<img src="'+medialist[i].media_url+'" alt="demo1">'+
+                '<img src="'+url+'" alt="demo1">'+
                 '<div class="caption">'+
                   '<p>'+medialist[i].media_title+'</p>'+
                  ' <a href=""><img src="'+mediaurl+'" alt="videos"></a>'+
@@ -652,10 +664,16 @@ $.ajax({
   'success': function(response){
        //alert("success");
       var mediaurl=getimgurl(mediatype);
+      var url="";
+      if(mediatype =="image") {
+         url=response.media_url;
+      }else{
+         url=response.media_thumbnail_url
+      }
       $(".project_lists").prepend('<div class="pl_thumbHolder" data-media-type="'+mediatype+'" data-media-id="'+response.id+'">'+
               '<div class="thumb-edit-overlay"></div>'+
               '<div class="thumbnail">'+
-                '<img src="'+response.media_url+'" alt="demo1">'+
+                '<img src="'+url+'" alt="demo1">'+
                 '<div class="caption">'+
                   '<p>'+response.media_title+'</p>'+
                  ' <a href=""><img src="'+mediaurl+'" alt="videos"></a>'+
@@ -705,6 +723,10 @@ $("#updatemedia").on("click",function(){
         'method':'post',
         'data':data,
         'success': function(response){
+        //alert(response.media_title+" "+response.id);
+
+        $(".project_lists .pl_thumbHolder[data-media-id="+response.id+"]").find(".caption").html(response.media_title);
+
         //alert(response.id);
         },
         'error':function(re){
@@ -750,7 +772,7 @@ $(".countDisplay button").on("click",function(){
     for(i=0;i<len;i++) {
         selectedmediaitems.push($(".thumb-edit-icons .squaredThree input[type='checkbox']:checked:enabled:eq("+i+")").parents(".pl_thumbHolder").data("media-id"));
     }
-    alert(selectedmediaitems);
+    //alert(selectedmediaitems);
 
      var data = {
 		'project_id':projectcurrentselection,
@@ -766,6 +788,7 @@ $(".countDisplay button").on("click",function(){
         for(i=0;i<len;i++) {
         $(".thumb-edit-icons .squaredThree input[type='checkbox']:checked:enabled:eq("+i+")").parents(".pl_thumbHolder").remove();
          }
+        $(".countDisplay").addClass("hide");
         },
         'error':function(re){
         alert("Error updating media");
@@ -775,25 +798,85 @@ $(".countDisplay button").on("click",function(){
     selectedmediaitems=[];
 });
 
+var executed = false;
 
+//infinte scrolling
 $(window).scroll(function()
 {
-    if($(window).scrollTop() == $(document).height() - ($(window).height()))
-    {
-        alert($(document).height());
-        //$.ajax({
-        //url: "loadmore.php",
-        //success: function(html)
-        //{
-        //    if(html)
-        //    {
-        //         $("#postswrapper").append(html);
-        //        $('div#loadmoreajaxloader').hide();
-        //    }else
-        //    {
-        //        $('div#loadmoreajaxloader').html('<center>No more posts to show.</center>');
-        //    }
-        //}
-        //});
-    }
+            var window_top = $(window).scrollTop();
+			var div_top = $('.project_lists').offset().top;
+			if (window_top > div_top) {
+
+                if (!executed) {
+                    executed = true;
+                    //alert("mm");
+
+
+                    var mediadisplayed = $(".pl_thumbHolder");
+                    var mdlen = mediadisplayed.length;
+                    //alert(mdlen);
+                    if (mdlen != 0) {
+                        $("#loaderimage").removeClass("hide");
+                        var data = {
+                            'project_id': projectcurrentselection,
+                            "mtype": mediacurrentselection,
+                            'start': mdlen,
+                            'end': mdlen + 2,
+                            'scroll': 1,
+                        }
+                        console.log(data)
+                        $.ajax({
+                            'url': '/home/mediadetails/',
+                            'method': 'post',
+                            'data': data,
+                            'success': function (response) {
+                                console.log(response);
+                                apppendMedia(response.mediadata, response.mediacount);
+
+                            },
+                            'error': function (re) {
+
+                            }
+                        });
+
+                    }
+                }
+
+			}else{
+                executed=false;
+            }
 });
+
+function apppendMedia(medialist,mediacount){
+    var e='';
+    for(i=0;i<mediacount;i++)
+    {
+      var url="";
+      if(medialist[i].media_type =="image") {
+         url=medialist[i].media_url;
+      }else{
+         url=medialist[i].media_thumbnail_url
+      }
+          var mediaurl = getimgurl(medialist[i].media_type);
+          e += '<div class="pl_thumbHolder"  data-media-type="' + medialist[i].media_type + '" data-media-id="' + medialist[i].id + '">' +
+              '<div class="thumb-edit-overlay"></div>' +
+              '<div class="thumbnail">' +
+              '<img src="' + url + '" alt="demo1">' +
+              '<div class="caption">' +
+              '<p>' + medialist[i].media_title + '</p>' +
+              ' <a href=""><img src="' + mediaurl + '" alt="videos"></a>' +
+              '</div>' +
+
+              '<div class="thumb-edit-icons">' +
+              ' <div class="squaredThree">' +
+              '  <input type="checkbox" value="None" id="test_1" name="check" />' +
+              '  <label for="test_1"></label>' +
+              ' </div>' +
+              '</div>' +
+              ' </div>' +
+              '</div>';
+
+    }
+     $(".project_lists").append(e);
+     $("#loaderimage").addClass("hide");
+}

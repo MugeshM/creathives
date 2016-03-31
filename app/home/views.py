@@ -267,17 +267,29 @@ def handlemediaupload(request):
 @login_required()
 @permission_classes((AllowAny,))
 def mediadetails(request):
-  if(int(request.data.get("mid"))==0):
-    if(request.data.get("mtype")!=""):
-        mediadata=MediaSerializer(media.objects.filter(user_id=request.user.id,media_type=request.data.get("mtype"),project_id=request.data.get("project_id"))[:2],many=True)
-        mediacount=media.objects.filter(user_id=request.user.id,media_type=request.data.get("mtype"),project_id=request.data.get("project_id"))[:2].count()
-    else:
-        mediadata=MediaSerializer(media.objects.filter(user_id=request.user.id,project_id=request.data.get("project_id"))[:2],many=True)
-        mediacount=media.objects.filter(user_id=request.user.id,project_id=request.data.get("project_id"))[:2].count()
-    return Response({"mediacount":mediacount,'mediadata':mediadata.data},status=status.HTTP_200_OK)
-  else:
-      mediadata=MediaSerializer(media.objects.filter(user_id=request.user.id,id=request.data.get("mid"))[:2],many=True)
-      return Response(mediadata.data,status=status.HTTP_200_OK)
+   if(int(request.data.get("scroll"))==0):
+      start,end=0,2
+      if(int(request.data.get("mid"))==0):
+        if(request.data.get("mtype")!=""):
+            mediadata=MediaSerializer(media.objects.filter(user_id=request.user.id,media_type=request.data.get("mtype"),project_id=request.data.get("project_id"))[start:end],many=True)
+            mediacount=media.objects.filter(user_id=request.user.id,media_type=request.data.get("mtype"),project_id=request.data.get("project_id"))[start:end].count()
+        else:
+            mediadata=MediaSerializer(media.objects.filter(user_id=request.user.id,project_id=request.data.get("project_id"))[start:end],many=True)
+            mediacount=media.objects.filter(user_id=request.user.id,project_id=request.data.get("project_id"))[start:end].count()
+        return Response({"mediacount":mediacount,'mediadata':mediadata.data},status=status.HTTP_200_OK)
+      else:
+          mediadata=MediaSerializer(media.objects.filter(user_id=request.user.id,id=request.data.get("mid"))[start:end],many=True)
+          return Response(mediadata.data,status=status.HTTP_200_OK)
+   else:
+        print "scroll"
+        start,end=int(request.data.get("start")),int(request.data.get("end"))
+        if(request.data.get("mtype")!=""):
+            mediadata=MediaSerializer(media.objects.filter(user_id=request.user.id,media_type=request.data.get("mtype"),project_id=request.data.get("project_id"))[start:end],many=True)
+            mediacount=media.objects.filter(user_id=request.user.id,media_type=request.data.get("mtype"),project_id=request.data.get("project_id"))[start:end].count()
+        else:
+            mediadata=MediaSerializer(media.objects.filter(user_id=request.user.id,project_id=request.data.get("project_id"))[start:end],many=True)
+            mediacount=media.objects.filter(user_id=request.user.id,project_id=request.data.get("project_id"))[start:end].count()
+        return Response({"mediacount":mediacount,'mediadata':mediadata.data},status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 @login_required()
@@ -308,3 +320,4 @@ def deletemedia(request):
         print d
         media.objects.filter(project_id=request.data.get("project_id"),id__in=d,user_id=request.user.id).delete()
         return Response({"msg":"Selected items Deleted successfully"},status=status.HTTP_200_OK)
+

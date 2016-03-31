@@ -123,7 +123,7 @@ class media(models.Model):
     uploaded_date = models.DateTimeField('date posted',default=timezone.now)
     media_type = models.CharField(max_length=40)
     media_url = models.CharField(max_length=200)
-    media_thumbnail_url=models.CharField(max_length=200,default="http://")
+    media_thumbnail_url=models.CharField(max_length=200,default="/static/images/media.jpg")
     media_details=models.CharField(max_length=500,default="mediadetails")
     media_title= models.CharField(max_length=100,default="mediatitle")
 
