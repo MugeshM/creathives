@@ -22,6 +22,9 @@ from django.http import QueryDict
 import json
 from django.core import serializers
 from ast import literal_eval
+import subprocess
+from random import randint
+
 
 @login_required
 def home(request):
@@ -250,13 +253,33 @@ def deleteproject(request):
 @login_required()
 @permission_classes((AllowAny,))
 def handlemediaupload(request):
-   print "hgh"
    if(int(request.data.get("ytube"))==0):
            print "media"
-           mediaupload(request.FILES.get("file"),request.data.get("mediatype"),request.FILES.get("file").name,request.user,"Project"+request.data.get('projid'))
+           filename=request.FILES.get("file").name.replace(" ", "-")
+           filename=filename.replace("(", "-")
+           filename=filename.replace(")", "-")
+           filename=filename.replace("#", "")
+           fname, file_extension = os.path.splitext(filename)
+           filename=fname+str(randint(0,2000))+file_extension
+           mediaupload(request.FILES.get("file"),request.data.get("mediatype"),filename,request.user,"Project"+request.data.get('projid'))
            # 'user_id','project_id','media_type','media_url','media_thumbnail_url','media_details','media_title'
-           media_url="/static/media/"+str(request.user)+"/"+"Project"+request.data.get('projid')+"/"+request.data.get("mediatype")+"/"+request.FILES.get("file").name
-           data={'user_id':request.user.id,'project_id':request.data.get('projid'),'media_url':media_url,'media_type':request.data.get("mediatype")}
+           media_url="/static/media/"+str(request.user)+"/"+"Project"+request.data.get('projid')+"/"+request.data.get("mediatype")+"/"+filename
+           homeurl="/media/mugesh/Extra/STUDIES/Internship/Django/Creathives"+media_url
+           fname, file_extension = os.path.splitext(media_url)
+           # print filename+" "+file_extension
+           outputurl="/media/mugesh/Extra/STUDIES/Internship/Django/Creathives"+fname+".jpg"
+           print homeurl
+           print outputurl
+           thumburl=fname+".jpg"
+           if(request.data.get("mediatype")!="article" and request.data.get("mediatype")!="image"):
+                a=subprocess.call('ffmpeg -i {0} -ss 00:00:14.435 -filter  scale=w=260:h=213 -vframes 1 {1}'.format(homeurl,outputurl),shell=True)
+                print "subprocess :"+str(a)
+                if(request.data.get("mediatype")=="track"):
+                    print a
+                    thumburl="/static/images/media.jpg"
+           elif(request.data.get("mediatype")=="article"):
+                subprocess.call('convert -resize 260x213\! {0}[0] {1}'.format(homeurl,outputurl),shell=True)
+           data={'user_id':request.user.id,'project_id':request.data.get('projid'),'media_url':media_url,'media_thumbnail_url':thumburl,'media_type':request.data.get("mediatype")}
            print data
            serializer=MediaSerializer(data=data)
            if serializer.is_valid():
@@ -329,5 +352,5 @@ def deletemedia(request):
         d=map(int, d)
         print d
         media.objects.filter(project_id=request.data.get("project_id"),id__in=d,user_id=request.user.id).delete()
-        return Response({"msg":"Selected items Deleted successfully"},status=status.HTTP_200_OK)
+        return Response({"msg":"Selected items Deleted successfully","deleted":d},status=status.HTTP_200_OK)
 
