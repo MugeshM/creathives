@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="5ef0bea8-8dbe-4db9-98c4-772666e121ca" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/home/views.py" afterPath="$PROJECT_DIR$/app/home/views.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/script.js" afterPath="$PROJECT_DIR$/static/js/script.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/index.html" afterPath="$PROJECT_DIR$/templates/index.html" />
     </list>
     <ignored path="Creathives.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,9 +32,18 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.625">
-              <caret line="379" column="85" selection-start-line="379" selection-start-column="85" selection-end-line="379" selection-end-column="85" />
-              <folding />
+            <state vertical-scroll-proportion="-3.3333333">
+              <caret line="460" column="34" selection-start-line="460" selection-start-column="34" selection-end-line="460" selection-end-column="34" />
+              <folding>
+                <element signature="n#style#0;n#input#0;n#label#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#0;n#label#0;n#ul#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#img#0;n#div#3;n#div#0;n#div#0;n#div#0;n#li#0;n#ul#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#li#0;n#ul#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#0;n#div#1;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#button#1;n#div#1;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#2;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -42,25 +51,25 @@
       <file leaf-file-name="script.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/static/js/script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.37823835">
-              <caret line="859" column="18" selection-start-line="859" selection-start-column="18" selection-end-line="859" selection-end-column="18" />
+            <state vertical-scroll-proportion="0.28151986">
+              <caret line="862" column="13" selection-start-line="862" selection-start-column="13" selection-end-line="862" selection-end-column="13" />
               <folding>
-                <marker date="1459505375677" expanded="true" signature="9889:9911" placeholder="..." />
-                <marker date="1459505375677" expanded="true" signature="9889:9918" placeholder="..." />
-                <marker date="1459505375677" expanded="true" signature="9889:9926" placeholder="..." />
-                <marker date="1459505375677" expanded="true" signature="16356:16369" placeholder="..." />
-                <marker date="1459505375677" expanded="true" signature="20590:21394" placeholder="..." />
-                <marker date="1459505375677" expanded="true" signature="20681:21394" placeholder="..." />
-                <marker date="1459505375677" expanded="true" signature="20784:21312" placeholder="..." />
-                <marker date="1459505375677" expanded="true" signature="20784:21341" placeholder="..." />
-                <marker date="1459505375677" expanded="true" signature="20784:21367" placeholder="..." />
-                <marker date="1459505375677" expanded="true" signature="25796:26737" placeholder="..." />
-                <marker date="1459505375677" expanded="true" signature="25868:26737" placeholder="..." />
-                <marker date="1459505375677" expanded="true" signature="25979:26706" placeholder="..." />
-                <marker date="1459505375677" expanded="true" signature="34077:34790" placeholder="..." />
-                <marker date="1459505375677" expanded="true" signature="34180:34763" placeholder="..." />
-                <marker date="1459505375677" expanded="true" signature="37035:37923" placeholder="..." />
-                <marker date="1459505375677" expanded="true" signature="37146:37892" placeholder="..." />
+                <marker date="1460381346244" expanded="true" signature="10535:10557" placeholder="..." />
+                <marker date="1460381346244" expanded="true" signature="10535:10564" placeholder="..." />
+                <marker date="1460381346244" expanded="true" signature="10535:10572" placeholder="..." />
+                <marker date="1460381346244" expanded="true" signature="17005:17018" placeholder="..." />
+                <marker date="1460381346244" expanded="true" signature="21239:22048" placeholder="..." />
+                <marker date="1460381346244" expanded="true" signature="21330:22048" placeholder="..." />
+                <marker date="1460381346244" expanded="true" signature="21433:21966" placeholder="..." />
+                <marker date="1460381346244" expanded="true" signature="21433:21995" placeholder="..." />
+                <marker date="1460381346244" expanded="true" signature="21433:22021" placeholder="..." />
+                <marker date="1460381346244" expanded="true" signature="26450:27396" placeholder="..." />
+                <marker date="1460381346244" expanded="true" signature="26522:27396" placeholder="..." />
+                <marker date="1460381346244" expanded="true" signature="26633:27365" placeholder="..." />
+                <marker date="1460381346244" expanded="true" signature="35830:36548" placeholder="..." />
+                <marker date="1460381346244" expanded="true" signature="35933:36521" placeholder="..." />
+                <marker date="1460381346244" expanded="true" signature="38793:39686" placeholder="..." />
+                <marker date="1460381346244" expanded="true" signature="38904:39655" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -70,7 +79,7 @@
         <entry file="file://$PROJECT_DIR$/app/home/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="268" column="42" selection-start-line="268" selection-start-column="42" selection-end-line="268" selection-end-column="42" />
+              <caret line="305" column="42" selection-start-line="305" selection-start-column="42" selection-end-line="305" selection-end-column="42" />
               <folding>
                 <element signature="e#0#54#0" expanded="true" />
               </folding>
@@ -163,8 +172,8 @@
         <option value="$PROJECT_DIR$/app/home/serializers.py" />
         <option value="$PROJECT_DIR$/app/home/urls.py" />
         <option value="$PROJECT_DIR$/app/home/models.py" />
-        <option value="$PROJECT_DIR$/templates/index.html" />
         <option value="$PROJECT_DIR$/app/home/views.py" />
+        <option value="$PROJECT_DIR$/templates/index.html" />
         <option value="$PROJECT_DIR$/static/js/script.js" />
       </list>
     </option>
@@ -176,9 +185,9 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="65" />
-    <option name="y" value="-4" />
+    <option name="y" value="24" />
     <option name="width" value="1301" />
-    <option name="height" value="772" />
+    <option name="height" value="744" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -205,8 +214,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -415,6 +422,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -743,32 +752,38 @@
       <option name="project" value="LOCAL" />
       <updated>1459434585992</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Completed thumnail uploading for video, articles and fixed some bug with project creation and deletion, fixed some errors with infinitescroll">
+      <created>1459505599011</created>
+      <option name="number" value="00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1459505599011</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="-4" width="1301" height="772" extended-state="6" />
+    <frame x="65" y="24" width="1301" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.45426357" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32868218" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2374502" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24143426" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32868218" sideWeight="0.49721116" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32868218" sideWeight="0.50278884" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.049612403" sideWeight="0.4557769" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32868218" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32868218" sideWeight="0.49721116" order="2" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -791,7 +806,8 @@
     <MESSAGE value="Completed media selection and deletion" />
     <MESSAGE value="Completed Infinite Scroll , added default thumbnail for audio video and article and fixed some issues with meda details updation." />
     <MESSAGE value="Completed Youtube single video upload." />
-    <option name="LAST_COMMIT_MESSAGE" value="Completed Youtube single video upload." />
+    <MESSAGE value="Completed thumnail uploading for video, articles and fixed some bug with project creation and deletion, fixed some errors with infinitescroll" />
+    <option name="LAST_COMMIT_MESSAGE" value="Completed thumnail uploading for video, articles and fixed some bug with project creation and deletion, fixed some errors with infinitescroll" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -800,6 +816,23 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/templates/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#input#0;n#label#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#label#0;n#ul#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#div#3;n#div#0;n#div#0;n#div#0;n#li#0;n#ul#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#li#0;n#ul#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#div#1;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#1;n#div#1;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#2;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -825,7 +858,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="143" column="0" selection-start-line="143" selection-start-column="0" selection-end-line="143" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#input#0;n#label#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#label#0;n#ul#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#div#3;n#div#0;n#div#0;n#div#0;n#li#0;n#ul#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#li#0;n#ul#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#div#1;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#1;n#div#1;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#2;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -861,7 +903,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="143" column="0" selection-start-line="143" selection-start-column="0" selection-end-line="143" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#input#0;n#label#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#label#0;n#ul#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#div#3;n#div#0;n#div#0;n#div#0;n#li#0;n#ul#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#li#0;n#ul#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#div#1;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#1;n#div#1;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#2;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -897,7 +948,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#input#0;n#label#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#label#0;n#ul#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#div#3;n#div#0;n#div#0;n#div#0;n#li#0;n#ul#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#li#0;n#ul#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#div#1;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#1;n#div#1;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#2;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1110,12 +1170,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/home/serializers.py">
+    <entry file="file://$PROJECT_DIR$/app/home/helper.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="60" column="135" selection-start-line="60" selection-start-column="135" selection-end-line="60" selection-end-column="135" />
+          <caret line="53" column="25" selection-start-line="53" selection-start-column="25" selection-end-line="53" selection-end-column="25" />
           <folding>
-            <element signature="e#0#38#0" expanded="true" />
+            <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1128,24 +1188,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/home/helper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="53" column="25" selection-start-line="53" selection-start-column="25" selection-end-line="53" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.625">
-          <caret line="379" column="85" selection-start-line="379" selection-start-column="85" selection-end-line="379" selection-end-column="85" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/home/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1154,37 +1196,64 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/home/serializers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="60" column="135" selection-start-line="60" selection-start-column="135" selection-end-line="60" selection-end-column="135" />
+          <folding>
+            <element signature="e#0#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/home/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="268" column="42" selection-start-line="268" selection-start-column="42" selection-end-line="268" selection-end-column="42" />
+          <caret line="305" column="42" selection-start-line="305" selection-start-column="42" selection-end-line="305" selection-end-column="42" />
           <folding>
             <element signature="e#0#54#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/templates/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.3333333">
+          <caret line="460" column="34" selection-start-line="460" selection-start-column="34" selection-end-line="460" selection-end-column="34" />
+          <folding>
+            <element signature="n#style#0;n#input#0;n#label#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#label#0;n#ul#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#div#3;n#div#0;n#div#0;n#div#0;n#li#0;n#ul#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#3;n#div#0;n#div#0;n#div#0;n#li#0;n#ul#0;n#form#0;n#div#0;n#div#0;n#div#1;n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#div#1;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#1;n#div#1;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#div#2;n#div#1;n#div#0;n#section#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/static/js/script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.37823835">
-          <caret line="859" column="18" selection-start-line="859" selection-start-column="18" selection-end-line="859" selection-end-column="18" />
+        <state vertical-scroll-proportion="0.28151986">
+          <caret line="862" column="13" selection-start-line="862" selection-start-column="13" selection-end-line="862" selection-end-column="13" />
           <folding>
-            <marker date="1459505375677" expanded="true" signature="9889:9911" placeholder="..." />
-            <marker date="1459505375677" expanded="true" signature="9889:9918" placeholder="..." />
-            <marker date="1459505375677" expanded="true" signature="9889:9926" placeholder="..." />
-            <marker date="1459505375677" expanded="true" signature="16356:16369" placeholder="..." />
-            <marker date="1459505375677" expanded="true" signature="20590:21394" placeholder="..." />
-            <marker date="1459505375677" expanded="true" signature="20681:21394" placeholder="..." />
-            <marker date="1459505375677" expanded="true" signature="20784:21312" placeholder="..." />
-            <marker date="1459505375677" expanded="true" signature="20784:21341" placeholder="..." />
-            <marker date="1459505375677" expanded="true" signature="20784:21367" placeholder="..." />
-            <marker date="1459505375677" expanded="true" signature="25796:26737" placeholder="..." />
-            <marker date="1459505375677" expanded="true" signature="25868:26737" placeholder="..." />
-            <marker date="1459505375677" expanded="true" signature="25979:26706" placeholder="..." />
-            <marker date="1459505375677" expanded="true" signature="34077:34790" placeholder="..." />
-            <marker date="1459505375677" expanded="true" signature="34180:34763" placeholder="..." />
-            <marker date="1459505375677" expanded="true" signature="37035:37923" placeholder="..." />
-            <marker date="1459505375677" expanded="true" signature="37146:37892" placeholder="..." />
+            <marker date="1460381346244" expanded="true" signature="10535:10557" placeholder="..." />
+            <marker date="1460381346244" expanded="true" signature="10535:10564" placeholder="..." />
+            <marker date="1460381346244" expanded="true" signature="10535:10572" placeholder="..." />
+            <marker date="1460381346244" expanded="true" signature="17005:17018" placeholder="..." />
+            <marker date="1460381346244" expanded="true" signature="21239:22048" placeholder="..." />
+            <marker date="1460381346244" expanded="true" signature="21330:22048" placeholder="..." />
+            <marker date="1460381346244" expanded="true" signature="21433:21966" placeholder="..." />
+            <marker date="1460381346244" expanded="true" signature="21433:21995" placeholder="..." />
+            <marker date="1460381346244" expanded="true" signature="21433:22021" placeholder="..." />
+            <marker date="1460381346244" expanded="true" signature="26450:27396" placeholder="..." />
+            <marker date="1460381346244" expanded="true" signature="26522:27396" placeholder="..." />
+            <marker date="1460381346244" expanded="true" signature="26633:27365" placeholder="..." />
+            <marker date="1460381346244" expanded="true" signature="35830:36548" placeholder="..." />
+            <marker date="1460381346244" expanded="true" signature="35933:36521" placeholder="..." />
+            <marker date="1460381346244" expanded="true" signature="38793:39686" placeholder="..." />
+            <marker date="1460381346244" expanded="true" signature="38904:39655" placeholder="..." />
           </folding>
         </state>
       </provider>

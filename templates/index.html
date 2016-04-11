@@ -295,6 +295,7 @@
           </ul>
           <div id="rightView_content" class="hide">
             <div class="pH_row hide">
+
               <div class="titleSection">
                 <span class="p_mt">ITC Packaging</span>
                 <span class="p_st">Project Type</span>
@@ -307,6 +308,10 @@
             <!-- Portfolio Edit -->
             <div class="pH_row-edit">
               <div class="media">
+              <!--div style="float:right;">
+                <span id="editproject" class="glyphicon glyphicon-edit"></span>
+                <span id="updateproject" class="glyphicon glyphicon-floppy-disk hide" ></span>
+                </div-->
                 <div class="media-left">
                 <form id="pt">
                   <label for="thumbimg">
@@ -450,10 +455,12 @@
         </div>
 
         <!-- Portfolio Edit -->
-        <div class="countDisplay hide">
-          <span> </span>
-          <button class="btn btn-black">DELETE</button>
+        <div class="countDisplay hide" style="bottom:10px;left:5px;">
+          <span> </span><br><br>
+          <button id="delbutton" class="btn btn-black" style="margin-left:20px;margin-bottom:50px;">DELETE</button>
+          <button id="cancelbutton" class="btn btn-black" style="margin-bottom:50px;">CANCEL</button>
         </div>
+
 
         <!-- Video Gallery -->
 
@@ -485,7 +492,7 @@
               </div>
 
             </div>
-            <div class="video-thumbnails large hide">
+            <div class="video-thumbnails large">
               <ul>
                 <li>
                   <a href="" class="active">
@@ -502,7 +509,16 @@
                     <img src="/static/images/latest/project1.png" alt="">
                   </a>
                 </li>
-
+                <li>
+                  <a href="">
+                    <img src="/static/images/latest/project1.png" alt="">
+                  </a>
+                </li>
+                  <li>
+                  <a href="">
+                    <img src="/static/images/latest/project1.png" alt="">
+                  </a>
+                </li>
               </ul>
             </div>
           </div>

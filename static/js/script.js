@@ -56,7 +56,9 @@ $(document).ready(function() {
         $(".articles").addClass("active");
         $("#rightView_content").hide();
         //$(".project_lists").hide();
-
+        $('html, body').animate({
+            scrollTop: $(".profile_emailId").offset().top
+           }, 700);
         mediacurrentselection = "article";
         if (projectcurrentselection != 0) {
             getmediadetails(projectcurrentselection, mediacurrentselection, 0);
@@ -72,6 +74,9 @@ $(document).ready(function() {
         //$(".project_lists").show();
         //$(".project_lists .pl_thumbHolder").show();
         mediacurrentselection = "";
+        $('html, body').animate({
+            scrollTop: $(".profile_emailId").offset().top
+           }, 700);
         //alert(projectcurrentselection+" "+mediacurrentselection);
         if (projectcurrentselection != 0) {
             getmediadetails(projectcurrentselection, mediacurrentselection, 0);
@@ -86,10 +91,14 @@ $(document).ready(function() {
         $("#rightView_content").hide();
         //$(".project_lists").hide();
 
+         $('html, body').animate({
+            scrollTop: $(".profile_emailId").offset().top
+           }, 700);
         mediacurrentselection = "video";
         if (projectcurrentselection != 0) {
             getmediadetails(projectcurrentselection, mediacurrentselection, 0);
         }
+
     });
     $(".tracks").on("click", function () {
         $(".all").removeClass("active");
@@ -99,7 +108,9 @@ $(document).ready(function() {
         $(".articles").removeClass("active");
         $("#rightView_content").hide();
         //$(".project_lists").hide();
-
+        $('html, body').animate({
+            scrollTop: $(".profile_emailId").offset().top
+           }, 700);
         mediacurrentselection = "track";
         if (projectcurrentselection != 0) {
             getmediadetails(projectcurrentselection, mediacurrentselection, 0);
@@ -113,7 +124,9 @@ $(document).ready(function() {
         $(".articles").removeClass("active");
         $("#rightView_content").hide();
         //$(".project_lists").hide();
-
+        $('html, body').animate({
+                    scrollTop: $(".profile_emailId").offset().top
+                   }, 700);
         mediacurrentselection = "image";
         if (projectcurrentselection != 0) {
             getmediadetails(projectcurrentselection, mediacurrentselection, 0);
@@ -230,6 +243,9 @@ $(document).ready(function() {
         var m = $(this).parent().data("media-type");
         $(".video-modal").data("media-type", m);
         getmediadetails(projectcurrentselection, m, $(this).parent().data("media-id"));
+
+        getnextthumbnail($(this).parent().data("media-id"),$(this));
+
         //alert($(this).parent().data("media-id")+" "+$(".video-modal").data("media-id"));
         //alert($(this).parent().data("media-type")+" "+$(".video-modal").data("media-type"));
         $('body').css('overflow', 'hidden');
@@ -271,6 +287,9 @@ $(document).ready(function() {
             $(".mediaplayer").replaceWith('<div class="mediaplayer"><audio controls  style="width:100%;height:30%;margin-top:25%;">' +
                 '<source src="' + res[0].media_url + '" type="audio/ogg"></audio></div>');
         }
+
+
+
     }
 
     $('.btn-done').click(function () {
@@ -552,7 +571,7 @@ $(document).ready(function() {
                 '</div>' +
 
                 '<div class="thumb-edit-icons">' +
-                ' <div class="squaredThree">' +
+                ' <div class="squaredThree hide">' +
                 '  <input type="checkbox" value="None" id="test_1" name="check" />' +
                 '  <label for="test_1"></label>' +
                 ' </div>' +
@@ -702,7 +721,7 @@ $(document).ready(function() {
                     '</div>' +
 
                     '<div class="thumb-edit-icons">' +
-                    ' <div class="squaredThree">' +
+                    ' <div class="squaredThree hide">' +
                     '  <input type="checkbox" value="None" id="test_1" name="check" />' +
                     '  <label for="test_1"></label>' +
                     ' </div>' +
@@ -757,6 +776,9 @@ $(document).ready(function() {
         })
     });
 
+
+
+
     $(document).on("click", ".thumb-edit-icons .squaredThree", function (e) {
 //$(".thumb-edit-icons .squaredThree").on("click",function(e){
         e.preventDefault();
@@ -765,6 +787,7 @@ $(document).ready(function() {
         var ckbox = $(this).find("input[type='checkbox']");
         ckbox.prop("checked", !ckbox.prop("checked"));
         var smediaitems = $(".thumb-edit-icons .squaredThree input[type='checkbox']:checked:enabled");
+          smediaitems.parents(".squaredThree").removeClass("hide");
         var len = smediaitems.length;
         //for(i=0;i<len;i++) {
         //    selectedmediaitems.push($(".thumb-edit-icons .squaredThree input[type='checkbox']:checked:enabled:eq("+i+")").parents(".pl_thumbHolder").data("media-id"));
@@ -794,15 +817,26 @@ $(document).ready(function() {
         $(".countDisplay span").html(counttext);
         counttext = "";
         $(".countDisplay").removeClass("hide");
+        if(len<=0){
+              $('.countDisplay').addClass("hide");
+              $('.countDisplay').css("position","");
+        }
+        else{
+              $('.countDisplay').removeClass("hide");
+              $('.countDisplay').css("position","fixed");
+        }
     });
 
 //event to delete media items
     var selectedmediaitems = [];
-    $(".countDisplay button").on("click", function () {
+    $(".countDisplay #delbutton").on("click", function () {
         var smediaitems = $(".thumb-edit-icons .squaredThree input[type='checkbox']:checked:enabled");
         var len = smediaitems.length;
+
+
         for (i = 0; i < len; i++) {
             selectedmediaitems.push($(".thumb-edit-icons .squaredThree input[type='checkbox']:checked:enabled:eq(" + i + ")").parents(".pl_thumbHolder").data("media-id"));
+
         }
         //alert(selectedmediaitems);
 
@@ -832,6 +866,15 @@ $(document).ready(function() {
         selectedmediaitems = [];
     });
 
+
+   $(".countDisplay #cancelbutton").on("click", function () {
+       $('input:checkbox').prop('checked',false);
+       //ckbox.prop("checked", !ckbox.prop("checked"));
+        $('input:checkbox').parents(".squaredThree").addClass("hide");
+        $(".countDisplay").addClass("hide");
+       });
+
+
     var executed = false;
 
     var div_top = $('.project_lists').offset().top;
@@ -839,21 +882,19 @@ $(document).ready(function() {
 //infinte scrolling
     $(window).scroll(function () {
         var window_top = $(window).scrollTop();
-        if (window_top > div_top) {
+
+        if (window_top >= div_top) {
 
             div_top = $('.project_lists').offset().top;
 
             if (!executed) {
-                executed = true;
-
-
 
                 var mediadisplayed = $(".pl_thumbHolder");
                 var mdlen = mediadisplayed.length;
                 //alert(mdlen);
                 if (mdlen != 0) {
 
-                    alert(mdlen+" "+executed);
+
                     $("#loaderimage").removeClass("hide");
                     var data = {
                         'project_id': projectcurrentselection,
@@ -862,18 +903,16 @@ $(document).ready(function() {
                         'end': mdlen + 10,
                         'scroll': 1,
                     }
-                    console.log(data)
+                    //console.log(data)
                     $.ajax({
                         'url': '/home/mediadetails/',
                         'method': 'post',
                         'data': data,
                         'success': function (response) {
-                            console.log(response);
+                            //console.log(response);
                             apppendMedia(response.mediadata, response.mediacount);
 
-
-                            div_top = window_top +200
-
+                            div_top = window_top +900
                         },
                         'error': function (re) {
 
@@ -881,13 +920,33 @@ $(document).ready(function() {
                     });
 
                 }
+                executed = true;
             }
 
-        } else {
+        }else {
 
             executed = false;
 
         }
+
+if($(window).scrollTop() + $(window).height() == $(document).height()) {
+            executed=true;
+            div_top = $('.project_lists').offset().top;
+            window_top = $(window).scrollTop();
+           // alert(window_top+" "+div_top);
+
+
+   }
+if((($(window).scrollTop() + $(window).height())+150) >= $(document).height()) {
+
+              $('.countDisplay').css("position","");
+        }else{
+    $('.countDisplay').css("position","fixed");
+}
+
+
+
+        //console.log(executed);
     });
 
     function apppendMedia(medialist, mediacount) {
@@ -910,7 +969,7 @@ $(document).ready(function() {
                 '</div>' +
 
                 '<div class="thumb-edit-icons">' +
-                ' <div class="squaredThree">' +
+                ' <div class="squaredThree hide">' +
                 '  <input type="checkbox" value="None" id="test_1" name="check" />' +
                 '  <label for="test_1"></label>' +
                 ' </div>' +
@@ -985,7 +1044,7 @@ $(document).ready(function() {
                     '</div>' +
 
                     '<div class="thumb-edit-icons">' +
-                    ' <div class="squaredThree">' +
+                    ' <div class="squaredThree hide">' +
                     '  <input type="checkbox" value="None" id="test_1" name="check" />' +
                     '  <label for="test_1"></label>' +
                     ' </div>' +
@@ -997,7 +1056,81 @@ $(document).ready(function() {
             },
             'error': function (re) {
                 alert("error in creating project");
+
             }
         });
     }
+
+
+    function getnextthumbnail(mid,element) {
+        //alert(projectcurrentselection+" f "+mid+" h "+element);
+        element=element.parents(".pl_thumbHolder");
+        var rtex="";
+        rtex+='<li data-mid="'+mid+'" data-media-type="'+element.data("media-type")+'">' +
+                '<a class="active">' +
+                '<img src="'+element.find(".thumbnail").find("img").attr("src")+'" alt="">' +
+                '</a>' +
+                '</li>';
+        for(i=0;i<4;i++) {
+            //console.log(element.data("media-id"));
+            //console.log(element.find(".thumbnail").find("img").attr("src"));
+            element = element.next();
+            thumburl=element.find(".thumbnail").find("img").attr("src");
+            rtex+='<li data-mid="'+element.data("media-id")+'" data-media-type="'+element.data("media-type")+'">' +
+                '<a>' +
+                '<img src="'+thumburl+'" alt="">' +
+                '</a>' +
+                '</li>';
+
+        }
+        $(".video-thumbnails ul").replaceWith('<ul>' +rtex+'</ul>');
+        //var data = {
+        //    'project_id': projectcurrentselection,
+        //    "mtype": mediacurrentselection,
+        //    'start': mdlen,
+        //    'end': mdlen + 10,
+        //}
+        ////console.log(data)
+        //$.ajax({
+        //    'url': '/home/mediadetails/',
+        //    'method': 'post',
+        //    'data': data,
+        //    'success': function (response) {
+        //        //console.log(response);
+        //        apppendMedia(response.mediadata, response.mediacount);
+        //
+        //        div_top = window_top + 900
+        //
+        //    },
+        //    'error': function (re) {
+        //
+        //    }
+        //});
+    }
+
+    $(document).on("click",".video-thumbnails ul li",function(){
+        $(this).children("a").addClass("active").end().siblings("li").children("a").removeClass("active");
+        //alert(projectcurrentselection+" b "+ $(this).data("media-type")+" g"+  $(this).data("mid"));
+
+        $(".video-modal").data("media-id", $(this).data("mid"));
+        var m = $(this).data("media-type");
+        $(".video-modal").data("media-type", m);
+
+        getmediadetails(projectcurrentselection, $(this).data("media-type"), $(this).data("mid"));
+    });
+
+  $(document).on("mouseover",".pl_thumbHolder .thumbnail",function(){
+       $(this).find(".squaredThree").removeClass("hide");
+       });
+
+  $(document).on("mouseout",".pl_thumbHolder .thumbnail",function() {
+          $(this).find(".squaredThree").addClass("hide");
+      if ($(this).find("input[type='checkbox']").prop("checked")){
+          $(this).find(".squaredThree").removeClass("hide");
+         }
+       });
+
+
 });
+
+
