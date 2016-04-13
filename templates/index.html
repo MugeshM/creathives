@@ -120,8 +120,8 @@
         <div class="modal-body">
           <form method="post"  action="updatecover/">
               {% csrf_token %}
-          <input type="text" class="form-control" name="coverimgurl">
-          <input type="submit" value="UpdateCoverPic" class="btn btn-primary btn-md">
+          <input type="text" class="form-control" name="coverimgurl" id="coverimgurl">
+          <input type="submit" value="UpdateCoverPic" id="UpdateCoverPicurl" class="btn btn-primary btn-md">
           </form>
             Or
             <form  enctype="multipart/form-data">
@@ -132,6 +132,7 @@
 
         </div>
         <div class="modal-footer">
+            <p style="align:center;" id="updatecoverimgmsg"></p>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
@@ -157,10 +158,10 @@
           <h4 class="modal-title">Enter the url of Profile photo: </h4>
         </div>
         <div class="modal-body">
-          <form method="post"  action="updateimg/">
+          <form>
               {% csrf_token %}
-          <input type="text" class="form-control" name="profileimgurl">
-          <input type="submit" value="UpdateProfilePic" class="btn btn-primary btn-md">
+          <input type="text" class="form-control" name="profileimgurl" id="profileimgurl">
+          <input type="submit" value="UpdateProfilePic" id="updateprofileurl" class="btn btn-primary btn-md">
           </form>
             Or
             <form enctype="multipart/form-data">
@@ -168,8 +169,10 @@
             <input type="file" name="file">
             <p><input type="submit" value="Upload" id="updateprofilebtn"/></p>
         </form>
+
         </div>
         <div class="modal-footer">
+             <p style="align:center;" id="updateimgmsg"></p>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>

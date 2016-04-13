@@ -640,6 +640,33 @@ $(document).ready(function() {
         // }
     });
 
+    $("#UpdateCoverPicurl").click(function (e) {
+           $url=$("#coverimgurl").val();
+           e.preventDefault();
+        var data = {
+            "coverimgurl":$url,
+
+        }
+        console.log(data)
+        $.ajax({
+            url: "updatecover/",
+            type: "POST",
+            data: data,
+            'success': function (response) {
+
+                $("#banner img").attr("src", response.coverimgurl);
+                 $("#updatecoverimgmsg").html(response.msg);
+                $("#updatecoverimgmsg").css("color","green");
+            },
+            'error': function (re) {
+                // alert("error in creating");
+                $("#updatecoverimgmsg").html("Error updating Image");
+                $("#updatecoverimgmsg").css("color","red");
+            }
+        });
+
+     });
+
     $("#updateprofilebtn").click(function (e) {
         var $img = $(this).parents("form")[0];
         console.log($img);
@@ -658,13 +685,43 @@ $(document).ready(function() {
 
                 $("#userProfile img:eq(0)").attr("src", response.profileimgurl);
                 $(".header-profilePic img").attr("src", response.profileimgurl);
+                $("#updateimgmsg").html(response.msg);
+                $("#updateimgmsg").css("color","green");
+
             },
             'error': function (re) {
-                // alert("error in creating");
+                $("#updateimgmsg").html("Error updating Image");
+                $("#updateimgmsg").css("color","red");
             }
         });
         // }
     });
+     $("#updateprofileurl").click(function (e) {
+           $url=$("#profileimgurl").val();
+           e.preventDefault();
+        var data = {
+            "profileimgurl":$url,
+
+        }
+        console.log(data)
+        $.ajax({
+            url: "updateimg/",
+            type: "POST",
+            data: data,
+            'success': function (response) {
+
+                $("#userProfile img:eq(0)").attr("src", response.profileimgurl);
+                $(".header-profilePic img").attr("src", response.profileimgurl);
+                $("#updateimgmsg").html(response.msg);
+                $("#updateimgmsg").css("color","green");
+
+            },
+            'error': function (re) {
+                $("#updateimgmsg").html("Error updating Image");
+                $("#updateimgmsg").css("color","red");
+            }
+        });
+     });
 
 
 //upload media

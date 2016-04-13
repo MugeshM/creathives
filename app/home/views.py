@@ -115,11 +115,11 @@ def updatecover(request):
          if request.data.get("coverimgurl")!=None:
             print "Uploading only URL"
             try:
-                wallimgurl= request.POST.get("coverimgurl")
+                wallimgurl= request.data.get("coverimgurl")
             except User.DoesNotExist:
                 return HttpResponse(status=status.HTTP_404_NOT_FOUND)
             con =  User.objects.filter(id=request.user.id).update(wallimg_url=wallimgurl)
-            return render(request,"index.html")
+            return Response({"msg":"updated successfully","coverimgurl":wallimgurl},status=status.HTTP_200_OK)
          elif request.data.get("file")!=None:
               print "Uploading File"
               if request.method == 'POST':
@@ -139,14 +139,14 @@ def updatecover(request):
 @permission_classes((AllowAny,))
 def updateimg(request):
     if request.method == 'POST':
-      if request.POST.get("profileimgurl")!=None:
+      if request.data.get("profileimgurl")!=None:
         print request.data
         try:
-            profimgurl= request.POST.get("profileimgurl")
+            profimgurl= request.data.get("profileimgurl")
         except User.DoesNotExist:
             return HttpResponse(status=status.HTTP_404_NOT_FOUND)
         con =  User.objects.filter(id=request.user.id).update(profile_url=profimgurl)
-        return render(request,"index.html")
+        return Response({"msg":"updated successfully","profileimgurl":profimgurl},status=status.HTTP_200_OK)
       elif request.data.get("file")!=None:
               print "Uploading File"
               if request.method == 'POST':
