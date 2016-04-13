@@ -126,7 +126,7 @@
             Or
             <form  enctype="multipart/form-data">
             {% csrf_token %}
-            <input type="file" name="file" id="coverimgfile">
+            <input type="file" name="file" id="coverimgfile" accept="image/*">
             <p><input type="submit" value="Upload" id="updatecoverbtn"/></p>
         </form>
 
@@ -166,7 +166,7 @@
             Or
             <form enctype="multipart/form-data">
             {% csrf_token %}
-            <input type="file" name="file">
+            <input type="file" name="file" accept="image/*">
             <p><input type="submit" value="Upload" id="updateprofilebtn"/></p>
         </form>
 
@@ -319,7 +319,7 @@
                 <form id="pt">
                   <label for="thumbimg">
                     <img class="media-object" for="thumbimg" src="/static/images/Edit/titleImage.png" alt="Upload Image">
-                    <input type="file" name="file" id="thumbimg" style="display:none">
+                    <input type="file" name="file" id="thumbimg" style="display:none" accept="image/*">
                   </label>
                 </form>
                 </div>
@@ -339,7 +339,7 @@
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                   <div class="media-tabs">
 
-<form id="muploadform">
+               <form id="muploadform">
                     <ul>
 
                         <label for="media">

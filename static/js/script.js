@@ -1,5 +1,8 @@
 $(document).ready(function() {
+
     var curprojid = 0;
+
+
     $(document).on("click",".deleteTrash",function(e) {
     //$(".deleteTrash").on("click", function (e) {
     //   alert("jh");
@@ -36,6 +39,7 @@ $(document).ready(function() {
                 $(".projcount").html(response.projcount + " Projects");
                 $("#rightView_content").addClass("hide");
                 $(".project_lists").hide();
+                loadproject($("#rightviewul li").first().data("project-id"));
             },
             'error': function (re) {
 
@@ -379,8 +383,10 @@ $(document).ready(function() {
             'method': 'post',
             'data': data,
             'success': function (response) {
-                // alert(response.data.id)
+                if(response.flag=="create"){
+                   // alert("create");
                 $("#newprojimg").attr("data-project-id", response.data.id);
+                }
                 $(".pH_row-edit").attr("data-project-id", response.data.id);
                 $(".projcount").html(response.projcount + " Projects");
                 //alert(response.projcount);
@@ -394,6 +400,7 @@ $(document).ready(function() {
                 console.log(response.data.id);
                 curprojid = response.data.id;
                 $(".left-panel-scroll ul").find("[data-project-id=" + response.data.id + "]").find("span").html(response.data.project_title);
+                //if(response.flag=="create") {
                 $(".left-panel-scroll ul").find("[data-project-id=" + response.data.id + "]").find("img:eq(0)").attr("src", response.data.thumbnail_url);
 
                 $(".projcount").removeClass("hide");
@@ -424,6 +431,10 @@ $(document).ready(function() {
             }
             return "";
         }
+
+         loadproject($("#rightviewul li").first().data("project-id"));
+
+
     });
 
     $("#add").click(function () {
@@ -492,7 +503,8 @@ $(document).ready(function() {
             processData: false,  // tell jQuery not to process the data
             contentType: false,   // tell jQuery not to set contentType
             'success': function (response) {
-                $("#newprojimg").find("img:eq(0)").attr("src", response.proj_url);
+                //$("#newprojimg").find("img:eq(0)").attr("src", response.proj_url);
+
                 $("#pt").find("img").attr("src", response.proj_url);
 
                 update();
@@ -507,6 +519,7 @@ $(document).ready(function() {
     });
 
 
+
     //$("#rightviewul li").click(function(e){
     $(document).on('click', "#rightviewul li", function () {
 
@@ -515,12 +528,19 @@ $(document).ready(function() {
             $(this).addClass("active");
             $(this).siblings().removeClass("active");
         }
-        curprojid = $(this).data("project-id");
-        projectcurrentselection = curprojid;
+
         //alert($(this).data("project-id"));
-        var data = {
-            'project_id': $(this).data("project-id"),
+        loadproject($(this).data("project-id"));
+
+    });
+
+    function loadproject(proj_id){
+        curprojid = proj_id;
+        projectcurrentselection = curprojid;
+         var data = {
+            'project_id': proj_id,
             "flag": "detail",
+
         }
         console.log(data)
         $.ajax({
@@ -551,9 +571,7 @@ $(document).ready(function() {
 
             }
         })
-
-    });
-
+    }
 
     function display_projectlist(medialist, mediacount) {
         console.log(medialist);

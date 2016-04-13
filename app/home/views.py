@@ -192,7 +192,7 @@ def projectdetailupdate(request):
             print "proj id :"+str(data.get("id"))
             create_projectfolder(request.user,"Project"+str(data.get("id")))
             count= projects.objects.filter(user_id=request.user.id).count()
-            return Response({"data":data,"projcount":count})
+            return Response({"data":data,"projcount":count,"flag":"create"})
           return Response(project_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         elif request.data.get("flag")=="detail":
             print "detail"
