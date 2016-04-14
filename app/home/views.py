@@ -28,9 +28,15 @@ from random import randint
 
 @login_required
 def home(request):
+    return HttpResponseRedirect("home/")
+
+
+def load(request):
      project = projects.objects.filter(user_id=request.user.id)
      context = {'projects': project}
+     print request.path
      return render(request,"index.html",context)
+
 
 def getjwt(request):
     return render(request,"jwttest.html")
@@ -83,6 +89,7 @@ def signup(request):
 
 def logout_view(request):
     logout(request)
+    print "logout"
     return render(request, "login.html")
 
 @login_required

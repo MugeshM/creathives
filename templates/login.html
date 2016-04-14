@@ -31,7 +31,8 @@
                     <a class="hiddenanchor" id="tologin"></a>
                     <div id="wrapper">
                         <div id="login" class="animate form">
-                            <form  autocomplete="on"> 
+                            <form method="post" autocomplete="on" id="loginform">
+                                {% csrf_token %}
                                 <h1>Log in</h1> 
                                 <p> 
                                     <label for="username" class="uname" data-icon="u" > Your email</label>
@@ -44,7 +45,7 @@
                                <div style="margin-left:24%;">
     <p id="pmsg"><strong id="msg"></strong></p></div>
                                 <p class="login button"> 
-                                    <input type="button" value="Login" id="loginBtn"  /> 
+                                    <input type="submit" value="Login" id="loginBtn"  />
 								</p>
 
                                 <p class="change_link">
@@ -55,7 +56,8 @@
                         </div>
 
                         <div id="register" class="animate form">
-                            <form autocomplete="on"> 
+                            <form method="post" autocomplete="on">
+                                {% csrf_token %}
                                 <h1> Sign up </h1> 
 
                                 <p>
@@ -116,7 +118,9 @@
        }
    });
 
-$('#loginBtn').on('click', function(){
+$('#loginBtn').on('click', function(e){
+
+    e.preventDefault();
     var data = {
         'email' : $("#username").val(),
         'password' : $("#password").val(),
@@ -132,6 +136,7 @@ $('#loginBtn').on('click', function(){
 {#            alert("su"+JSON.stringify(response))#}
             $("#pmsg").css("color","green");
             $("#msg").text(response.success_message);
+             //alert("df");
              window.location="/home/"
         },
         'error':function(re){
@@ -145,7 +150,8 @@ $('#loginBtn').on('click', function(){
 });
 
 
-$('#signupBtn').on('click', function(){
+$('#signupBtn').on('click', function(e){
+    e.preventDefault();
     var data = {    'user_name' : $("#usernamesignup").val(),
         'password': $("#passwordsignup").val(),
         'email':$("#emailsignup").val(),

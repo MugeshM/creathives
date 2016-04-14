@@ -267,7 +267,7 @@ $(document).ready(function() {
         $("#mediadetail").html(res[0].media_details);
         if (res[0].media_type == "image") {
             $(".mediaplayer").replaceWith('<div class="mediaplayer"><img height="100%" src="' + res[0].media_url + '"></div>');
-            $(".video-thumbnails ul li:eq(0) img").attr("src", res[0].media_url);
+            //$(".video-thumbnails ul li:eq(0) img").attr("src", res[0].media_url);
         }
         else if (res[0].media_type == "video") {
             if (res[0].media_url.startsWith("https://www.youtube.com/")) {
@@ -432,8 +432,10 @@ $(document).ready(function() {
             return "";
         }
 
-         loadproject($("#rightviewul li").first().data("project-id"));
+        if($("#rightviewul li").first().data("project-id")) {
 
+            loadproject($("#rightviewul li").first().data("project-id"));
+        }
 
     });
 
@@ -1143,43 +1145,71 @@ $(document).ready(function() {
     function getnextthumbnail(mid,element) {
         //alert(projectcurrentselection+" f "+mid+" h "+element);
         element=element.parents(".pl_thumbHolder");
+        var res="";
         var e=element;
         var rtex="";
         var flag=0;
+        //for(i=0;i<2;i++) {
+        //    //console.log(element.data("media-id"));
+        //    //console.log(element.find(".thumbnail").find("img").attr("src"));
+        //
+        //    if(i==0){
+        //        element = element.prev().prev();
+        //        //alert("mid"+element.data("media-id"));
+        //        if (!element.data("media-id")) {
+        //           element= e.prev();
+        //           //alert(element.data("media-id")+"ng");
+        //           //element = element.next().next();
+        //           //console.log("nextmid"+element.data("media-id"));
+        //           flag=1;
+        //
+        //        }
+        //
+        //    }else{
+        //        if(flag!=1){
+        //            element = element.next();
+        //        }else{
+        //            element=undefined;
+        //        }
+        //        //alert(element.data("media-id"));
+        //    }
+        //    console.log(element)
+        //    if(element) {
+        //        //alert(element.find(".thumbnail").find("img").attr("src"));
+        //        //alert(element);
+        //        res+=element.data("media-id");
+        //        thumburl = element.find(".thumbnail").find("img").attr("src");
+        //        rtex += '<li data-mid="' + element.data("media-id") + '" data-media-type="' + element.data("media-type") + '">' +
+        //            '<a>' +
+        //            '<img src="' + thumburl + '" alt="">' +
+        //            '</a>' +
+        //            '</li>';
+        //    }
+        //
+        //}
+        element=e;
         for(i=0;i<2;i++) {
             //console.log(element.data("media-id"));
             //console.log(element.find(".thumbnail").find("img").attr("src"));
-
-            if(i==0){
-                element = element.prev().prev();
-                //alert("mid"+element.data("media-id"));
-                if (!element.data("media-id")) {
-                   element= e.prev();
-                   //alert(element.data("media-id")+"ng");
-                   //element = element.next().next();
-                   //console.log("nextmid"+element.data("media-id"));
-                   flag=1;
-
-                }
-
-            }else{
-                if(flag!=1){
-                    element = element.next();
-                }else{
-                    element=undefined;
-                }
-                //alert(element.data("media-id"));
-            }
-            if(element) {
+            element = element.prev();
+            if(element.data("media-id")) {
+                res+=element.data("media-id");
                 thumburl = element.find(".thumbnail").find("img").attr("src");
-                rtex += '<li data-mid="' + element.data("media-id") + '" data-media-type="' + element.data("media-type") + '">' +
+                rtex = '<li data-mid="' + element.data("media-id") + '" data-media-type="' + element.data("media-type") + '">' +
                     '<a>' +
                     '<img src="' + thumburl + '" alt="">' +
                     '</a>' +
-                    '</li>';
-            }
+                    '</li>'+rtex;
+            }else{
 
+                rtex = '<li data-mid="0" style="visibility:hidden;">' +
+                    '<a>' +
+                    '<img src="empty" alt="">' +
+                    '</a>' +
+                    '</li>'+rtex;
+            }
         }
+        res+=e.data("media-id");
         rtex+='<li data-mid="'+mid+'" data-media-type="'+e.data("media-type")+'">' +
                 '<a class="active">' +
                 '<img src="'+e.find(".thumbnail").find("img").attr("src")+'" alt="">' +
@@ -1191,6 +1221,7 @@ $(document).ready(function() {
             //console.log(element.find(".thumbnail").find("img").attr("src"));
             element = element.next();
             if(element.data("media-id")) {
+                res+=element.data("media-id");
                 thumburl = element.find(".thumbnail").find("img").attr("src");
                 rtex += '<li data-mid="' + element.data("media-id") + '" data-media-type="' + element.data("media-type") + '">' +
                     '<a>' +
@@ -1200,6 +1231,7 @@ $(document).ready(function() {
             }
         }
         $(".video-thumbnails ul").replaceWith('<ul>' +rtex+'</ul>');
+        //alert(res);
     }
 
     $(document).on("click",".video-thumbnails ul li",function(){
